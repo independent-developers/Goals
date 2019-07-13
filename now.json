@@ -1,7 +1,6 @@
 {
     "name": "Goals",
     "version": 2,
-    "alias": ["goals.com", "goals"],
     "scope": "idependant-developers",
     "github": {
         "autoAlias": true
