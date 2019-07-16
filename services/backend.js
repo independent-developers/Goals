@@ -119,7 +119,9 @@ const server = new Hapi.Server(serverOptions);
     path: '/hey',
     handler: (req) => {
       console.log('hey')
-      return 'ho'
+      return {
+        'success': true
+      }
     },
   });
 
