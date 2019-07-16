@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
+require('dotenv').config()
 const fs = require('fs');
 const Hapi = require('hapi');
 const path = require('path');
@@ -22,6 +22,20 @@ const color = require('color');
 const ext = require('commander');
 const jsonwebtoken = require('jsonwebtoken');
 const request = require('request');
+const firebase = require('firebase');
+
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyDkXlt712zMy45qyWpLW3ncTTUIE_p-H0w",
+  authDomain: "goals-b8de5.firebaseapp.com",
+  databaseURL: "https://goals-b8de5.firebaseio.com",
+  projectId: "goals-b8de5",
+  storageBucket: "",
+  messagingSenderId: "951154990757",
+  appId: "1:951154990757:web:a671fd81863094c5"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 // The developer rig uses self-signed certificates.  Node doesn't accept them
 // by default.  Do not use this in production.
