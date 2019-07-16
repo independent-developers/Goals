@@ -82,9 +82,9 @@ ext.
   option('-o, --owner-id <owner_id>', 'Extension owner ID').
   parse(process.argv);
 
-const ownerId = getOption('ownerId', 'EXT_OWNER_ID');
-const secret = Buffer.from(getOption('secret', 'EXT_SECRET'), 'base64');
-const clientId = getOption('clientId', 'EXT_CLIENT_ID');
+const ownerId = process.env.TWITCH_OWNER_EXT_ID;
+const secret = process.env.TWITCH_SECRET;
+const clientId = process.env.TWITCH_CLIENT_ID;
 
 const serverOptions = {
   host: 'localhost',
@@ -111,6 +111,16 @@ const server = new Hapi.Server(serverOptions);
     method: 'POST',
     path: '/color/cycle',
     handler: colorCycleHandler,
+  });
+
+  // Handle a viewer request to cycle the color.
+  server.route({
+    method: 'GET',
+    path: '/hey',
+    handler: (req) => {
+      console.log('hey')
+      return 'ho'
+    },
   });
 
   // Handle a new viewer requesting the color.

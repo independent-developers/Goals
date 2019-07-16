@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cert": "node bin/generate_cert.js server",
-    "start": "node services/backend"
+    "start": "node services/backend",
+    "dev": "nodemon services/backend"
   },
   "keywords": [
     "twitch",
@@ -26,5 +27,8 @@
     "jsonwebtoken": "^8.2.0",
     "request": "^2.85.0",
     "selfsigned": "^1.10.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }

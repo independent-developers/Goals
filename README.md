@@ -9,3 +9,11 @@ curl -H "Client-ID: <client id>" -X GET "https://api.twitch.tv/helix/users?login
 - [Twitch extension - Boilerplate](https://github.com/twitchdev/extensions-hello-world)
 - [Firebase]()
 - [Cloud Firestore - Realtime Database](https://firebase.google.com/docs/database/rtdb-vs-firestore?authuser=0)
+
+# Structure of the `.env` file
+```
+TWITCH_EXT_SECRET=
+TWITCH_CLIENT_ID=
+TWITCH_OWNER_EXT_ID=
+FIREBASE_APP_ID=
+```
