@@ -26,13 +26,13 @@ const firebase = require('firebase');
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyDkXlt712zMy45qyWpLW3ncTTUIE_p-H0w",
-  authDomain: "goals-b8de5.firebaseapp.com",
-  databaseURL: "https://goals-b8de5.firebaseio.com",
-  projectId: "goals-b8de5",
-  storageBucket: "",
-  messagingSenderId: "951154990757",
-  appId: "1:951154990757:web:a671fd81863094c5"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "",
+  messagingSenderId: process.env.FIREBASE_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
