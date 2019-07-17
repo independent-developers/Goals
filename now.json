@@ -4,5 +4,8 @@
     "scope": "idependant-developers",
     "github": {
         "autoAlias": true
-    }
+    },
+    "builds": [
+        { "src": "services/backend.js", "use": "@now/node" }
+      ]
 }

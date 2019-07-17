@@ -13,31 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+'use strict'
+
 require('dotenv').config()
 const fs = require('fs');
-const Hapi = require('hapi');
+const ext = require('commander');
 const path = require('path');
 const Boom = require('boom');
+const Hapi = require('@hapi/hapi');
 const color = require('color');
-const ext = require('commander');
-const jsonwebtoken = require('jsonwebtoken');
 const request = require('request');
 const firebase = require('firebase');
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "",
-  messagingSenderId: process.env.FIREBASE_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID
-};
+// Libraries
+const apiRoutes = require('./routes/index')
+const HELPERS = require('./helpers')
+const DAL = require('./DAL')
+
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database()
-console.log(database)
+const database = DAL.init()
 
 // The developer rig uses self-signed certificates.  Node doesn't accept them
 // by default.  Do not use this in production.
@@ -49,12 +43,10 @@ const verboseLog = verboseLogging ? console.log.bind(console) : () => { };
 
 // Service state variables
 const initialColor = color('#6441A4');      // super important; bleedPurple, etc.
-const serverTokenDurationSec = 30;          // our tokens for pubsub expire after 30 seconds
 const userCooldownMs = 1000;                // maximum input rate per user to prevent bot abuse
 const userCooldownClearIntervalMs = 60000;  // interval to reset our tracking object
 const channelCooldownMs = 1000;             // maximum broadcast rate per channel
 const bearerPrefix = 'Bearer ';             // HTTP authorization headers have this prefix
-const colorWheelRotation = 30;
 const channelColors = {};
 const channelCooldowns = {};                // rate limit compliance
 let userCooldowns = {};                     // spam prevention
@@ -87,16 +79,18 @@ ext.
 const ownerId = process.env.TWITCH_OWNER_EXT_ID;
 const secret = process.env.TWITCH_SECRET;
 const clientId = process.env.TWITCH_CLIENT_ID;
+const PORT = 3000;
 
 const serverOptions = {
   host: 'localhost',
-  port: 8081,
+  port: PORT,
   routes: {
     cors: {
       origin: ['*'],
     },
   },
 };
+
 const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server');
 if (fs.existsSync(serverPathRoot + '.crt') && fs.existsSync(serverPathRoot + '.key')) {
   serverOptions.tls = {
@@ -105,36 +99,18 @@ if (fs.existsSync(serverPathRoot + '.crt') && fs.existsSync(serverPathRoot + '.k
     key: fs.readFileSync(serverPathRoot + '.key'),
   };
 }
+console.log('Creating server..')
 const server = new Hapi.Server(serverOptions);
 
 (async () => {
-  // Handle a viewer request to cycle the color.
-  server.route({
-    method: 'POST',
-    path: '/color/cycle',
-    handler: colorCycleHandler,
+  console.log('--------')
+  apiRoutes.forEach(route => {
+    console.log(`${route.method} http://localhost:${route.path}`)
+    server.route(route);
   });
+  console.log('--------')
 
-  // Handle a viewer request to cycle the color.
-  server.route({
-    method: 'GET',
-    path: '/hey',
-    handler: (req) => {
-      console.log('hey')
-      return {
-        'success': true
-      }
-    },
-  });
-
-  // Handle a new viewer requesting the color.
-  server.route({
-    method: 'GET',
-    path: '/color/query',
-    handler: colorQueryHandler,
-  });
-
-  // Start the server.
+  // Start the sercolorCycleHandlerver.
   await server.start();
   console.log(STRINGS.serverStarted, server.info.uri);
 
@@ -168,57 +144,6 @@ function getOption(optionName, environmentName) {
   return option;
 }
 
-// Verify the header and the enclosed JWT.
-function verifyAndDecode(header) {
-  if (header.startsWith(bearerPrefix)) {
-    try {
-      const token = header.substring(bearerPrefix.length);
-      return jsonwebtoken.verify(token, secret, { algorithms: ['HS256'] });
-    }
-    catch (ex) {
-      throw Boom.unauthorized(STRINGS.invalidJwt);
-    }
-  }
-  throw Boom.unauthorized(STRINGS.invalidAuthHeader);
-}
-
-function colorCycleHandler(req) {
-  // Verify all requests.
-  const payload = verifyAndDecode(req.headers.authorization);
-  const { channel_id: channelId, opaque_user_id: opaqueUserId } = payload;
-
-  // Store the color for the channel.
-  let currentColor = channelColors[channelId] || initialColor;
-
-  // Bot abuse prevention:  don't allow a user to spam the button.
-  if (userIsInCooldown(opaqueUserId)) {
-    throw Boom.tooManyRequests(STRINGS.cooldown);
-  }
-
-  // Rotate the color as if on a color wheel.
-  verboseLog(STRINGS.cyclingColor, channelId, opaqueUserId);
-  currentColor = color(currentColor).rotate(colorWheelRotation).hex();
-
-  // Save the new color for the channel.
-  channelColors[channelId] = currentColor;
-
-  // Broadcast the color change to all other extension instances on this channel.
-  attemptColorBroadcast(channelId);
-
-  return currentColor;
-}
-
-function colorQueryHandler(req) {
-  // Verify all requests.
-  const payload = verifyAndDecode(req.headers.authorization);
-
-  // Get the color for the channel from the payload and return it.
-  const { channel_id: channelId, opaque_user_id: opaqueUserId } = payload;
-  const currentColor = color(channelColors[channelId] || initialColor).hex();
-  verboseLog(STRINGS.sendColor, currentColor, opaqueUserId);
-  return currentColor;
-}
-
 function attemptColorBroadcast(channelId) {
   // Check the cool-down to determine if it's okay to send now.
   const now = Date.now();
@@ -238,7 +163,7 @@ function sendColorBroadcast(channelId) {
   const headers = {
     'Client-ID': clientId,
     'Content-Type': 'application/json',
-    'Authorization': bearerPrefix + makeServerToken(channelId),
+    'Authorization': bearerPrefix + HELPERS.jwt.makeServerToken(channelId, ownerId, secret),
   };
 
   // Create the POST body for the Twitch API request.
@@ -267,20 +192,6 @@ function sendColorBroadcast(channelId) {
     });
 }
 
-// Create and return a JWT for use by this service.
-function makeServerToken(channelId) {
-  const payload = {
-    exp: Math.floor(Date.now() / 1000) + serverTokenDurationSec,
-    channel_id: channelId,
-    user_id: ownerId, // extension owner ID for the call to Twitch PubSub
-    role: 'external',
-    pubsub_perms: {
-      send: ['*'],
-    },
-  };
-  return jsonwebtoken.sign(payload, secret, { algorithm: 'HS256' });
-}
-
 function userIsInCooldown(opaqueUserId) {
   // Check if the user is in cool-down.
   const cooldown = userCooldowns[opaqueUserId];
@@ -293,3 +204,8 @@ function userIsInCooldown(opaqueUserId) {
   userCooldowns[opaqueUserId] = now + userCooldownMs;
   return false;
 }
+
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
+});
