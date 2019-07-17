@@ -15,7 +15,7 @@ const Lists = [{
     path: '/goals',
     handler: update
 }, {
-    method: 'DEL',
+    method: 'DELETE',
     path: '/goals',
     handler: remove
 }]
@@ -30,6 +30,7 @@ const Colors = [{
     handler: colorQueryHandler
 }]
 
-const routes = [Lists, Colors]
+const routes = Lists.concat(Colors)
+console.log(routes)
 
 module.exports = routes;
