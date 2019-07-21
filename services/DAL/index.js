@@ -7,16 +7,22 @@ const firebaseConfig = {
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.FIREBASE_DATABASE_URL,
     projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "",
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.FIREBASE_SENDER_ID,
     appId: process.env.FIREBASE_APP_ID
   };
 
-function init(){
-    const database = firebase.initializeApp(firebaseConfig);
-    return database;
-}
+firebase.initializeApp(firebaseConfig);
+
+const lists = require('./lists')
+const users = require('./users')
+const generic = require("./generic");
+
 
 module.exports = {
-    init
+    firebase,
+    config: firebaseConfig,
+    lists,
+    users,
+    generic
 }
