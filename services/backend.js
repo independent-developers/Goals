@@ -27,8 +27,6 @@ const firebase = require('firebase');
 
 // Libraries
 const apiRoutes = require('./routes/index')
-const HELPERS = require('./helpers')
-const DAL = require('./DAL')
 
 // The developer rig uses self-signed certificates.  Node doesn't accept them
 // by default.  Do not use this in production.
@@ -37,6 +35,18 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // Use verbose logging during development.  Set this to false for production.
 const verboseLogging = true;
 const verboseLog = verboseLogging ? console.log.bind(console) : () => { };
+
+const PORT = 3000;
+
+const serverOptions = {
+  host: "localhost",
+  port: PORT,
+  routes: {
+    cors: {
+      origin: ["*"]
+    }
+  }
+};
 
 // Service state variables
 const initialColor = color('#6441A4');      // super important; bleedPurple, etc.
@@ -73,20 +83,7 @@ ext.
   option('-o, --owner-id <owner_id>', 'Extension owner ID').
   parse(process.argv);
 
-const ownerId = process.env.TWITCH_OWNER_EXT_ID;
-const secret = process.env.TWITCH_SECRET;
-const clientId = process.env.TWITCH_CLIENT_ID;
-const PORT = 3000;
 
-const serverOptions = {
-  host: 'localhost',
-  port: PORT,
-  routes: {
-    cors: {
-      origin: ['*'],
-    },
-  },
-};
 
 const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server');
 if (fs.existsSync(serverPathRoot + '.crt') && fs.existsSync(serverPathRoot + '.key')) {
@@ -123,83 +120,6 @@ function usingValue(name) {
 function missingValue(name, variable) {
   const option = name.charAt(0);
   return `Extension ${name} required.\nUse argument "-${option} <${name}>" or environment variable "${variable}".`;
-}
-
-// Get options from the command line or the environment.
-function getOption(optionName, environmentName) {
-  const option = (() => {
-    if (ext[optionName]) {
-      return ext[optionName];
-    } else if (process.env[environmentName]) {
-      console.log(STRINGS[optionName + 'Env']);
-      return process.env[environmentName];
-    }
-    console.log(STRINGS[optionName + 'Missing']);
-    process.exit(1);
-  })();
-  console.log(`Using "${option}" for ${optionName}`);
-  return option;
-}
-
-function attemptColorBroadcast(channelId) {
-  // Check the cool-down to determine if it's okay to send now.
-  const now = Date.now();
-  const cooldown = channelCooldowns[channelId];
-  if (!cooldown || cooldown.time < now) {
-    // It is.
-    sendColorBroadcast(channelId);
-    channelCooldowns[channelId] = { time: now + channelCooldownMs };
-  } else if (!cooldown.trigger) {
-    // It isn't; schedule a delayed broadcast if we haven't already done so.
-    cooldown.trigger = setTimeout(sendColorBroadcast, now - cooldown.time, channelId);
-  }
-}
-
-function sendColorBroadcast(channelId) {
-  // Set the HTTP headers required by the Twitch API.
-  const headers = {
-    'Client-ID': clientId,
-    'Content-Type': 'application/json',
-    'Authorization': bearerPrefix + HELPERS.jwt.makeServerToken(channelId, ownerId, secret),
-  };
-
-  // Create the POST body for the Twitch API request.
-  const currentColor = color(channelColors[channelId] || initialColor).hex();
-  const body = JSON.stringify({
-    content_type: 'application/json',
-    message: currentColor,
-    targets: ['broadcast'],
-  });
-
-  // Send the broadcast request to the Twitch API.
-  verboseLog(STRINGS.colorBroadcast, currentColor, channelId);
-  request(
-    `https://api.twitch.tv/extensions/message/${channelId}`,
-    {
-      method: 'POST',
-      headers,
-      body,
-    }
-    , (err, res) => {
-      if (err) {
-        console.log(STRINGS.messageSendError, channelId, err);
-      } else {
-        verboseLog(STRINGS.pubsubResponse, channelId, res.statusCode);
-      }
-    });
-}
-
-function userIsInCooldown(opaqueUserId) {
-  // Check if the user is in cool-down.
-  const cooldown = userCooldowns[opaqueUserId];
-  const now = Date.now();
-  if (cooldown && cooldown > now) {
-    return true;
-  }
-
-  // Voting extensions must also track per-user votes to prevent skew.
-  userCooldowns[opaqueUserId] = now + userCooldownMs;
-  return false;
 }
 
 process.on('unhandledRejection', (err) => {

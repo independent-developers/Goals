@@ -11,19 +11,13 @@ function create(request, h) {
     };
 }
 
-function read(request, h) {
-    console.log(':: create user', request.payload)
-    return {
-        success: true,
-        user: STORE
-    };
-}
 
 function update(request, h) {
     console.log(':: create user', request.payload)
+    DAL.generic.update("users", DAL.firebase, request.payload);
     return {
-        success: true,
-        user: STORE
+      success: true,
+      user: request.payload
     };
 }
 
@@ -39,7 +33,6 @@ function remove(request, h) {
 
 module.exports = {
     create,
-    read,
     update,
     remove
 }

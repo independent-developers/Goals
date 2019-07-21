@@ -1,13 +1,7 @@
-const STORE = {
-    name: "",
-    amount: "",
-    params: []
-}
+const DAL = require("../DAL");
 
 function create(request, h) {
     console.log(':: create', request.payload)
-    STORE.name = request.payload.name
-    STORE.amount = request.payload.amount
     return {
         "success": true,
         "goal": {
@@ -16,13 +10,7 @@ function create(request, h) {
         }
     }
 }
-function read(request, h) {
-    console.log(':: read')
-    return {
-        "success": true,
-        "goal": STORE
-    }
-}
+
 function update(request, h) {
     console.log(':: update')
     return {
@@ -42,7 +30,6 @@ function remove(request, h) {
 
 module.exports = {
     create,
-    read,
     update,
     remove
 }
