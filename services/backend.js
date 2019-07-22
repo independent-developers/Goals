@@ -19,18 +19,15 @@ require('dotenv').config()
 const fs = require('fs');
 const ext = require('commander');
 const path = require('path');
-const Boom = require('boom');
 const Hapi = require('@hapi/hapi');
 const color = require('color');
-const request = require('request');
-const firebase = require('firebase');
 
 // Libraries
 const apiRoutes = require('./routes/index')
 
 // The developer rig uses self-signed certificates.  Node doesn't accept them
 // by default.  Do not use this in production.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Use verbose logging during development.  Set this to false for production.
 const verboseLogging = true;

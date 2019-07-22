@@ -19,6 +19,7 @@ const users = require('./users')
 const generic = require("./generic");
 
 
+
 module.exports = {
     firebase,
     config: firebaseConfig,

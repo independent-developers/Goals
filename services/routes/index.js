@@ -29,8 +29,10 @@ const Users = [
   },
   {
     method: "PUT",
-    path: "/users",
-    handler: users.update
+    path: "/users/{userId?}",
+    config: {
+      handler: users.update
+    }
   },
   {
     method: "DELETE",

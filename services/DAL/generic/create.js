@@ -12,7 +12,12 @@ function create(resource, firebase, payload) {
   return firebase
     .database()
     .ref(`${resource}/${uuid}`)
-    .set(payload);
+    .set(payload, (error) => {
+      if(error) {
+        console.log('An error occurred while creating data', error)
+      }
+      console.log(`Data successfully registered for resource ${resource} !`)
+    });
 }
 
 module.exports = create;
