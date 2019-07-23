@@ -1,4 +1,5 @@
 const Boom = require('boom');
+
 const DAL = require('../DAL')
 
 function create(request, h) {
@@ -25,13 +26,13 @@ function update(request, h) {
 }
 
 function remove(request, h) {
-    console.log(':: deleting user..')
-    return {
+  const resource = request.url.pathname.split('/')[1];
+  console.log(`:: remove all ${resource}..`)
+  DAL.remove(resource, DAL.firebase, request.payload);
+  return h.response({
       success: true,
-      user: {
-        name: "coucou"
-      }
-    };
+      message: `All ${resource} have been removed.`
+  }).code(200)
 }
 
 module.exports = {

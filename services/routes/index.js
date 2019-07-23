@@ -30,9 +30,7 @@ const Users = [
   {
     method: "PUT",
     path: "/users/{userId?}",
-    config: {
-      handler: users.update
-    }
+    handler: users.update
   },
   {
     method: "DELETE",

@@ -7,8 +7,10 @@ const crypto = require("crypto");
  * @param {Object} payload 
  */
 function create(resource, firebase, payload) {
-
-  const uuid = crypto.randomBytes(20).toString("hex");
+  if(payload && payload.streamerId) {
+    console.log('StreamerId not found !')
+  }
+  const uuid = payload.streamerId || crypto.randomBytes(20).toString("hex");
   firebase
     .database()
     .ref(`${resource}/${uuid}`)

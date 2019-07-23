@@ -1,8 +1,8 @@
 
-function update(resource, firebase, payload, userId) {
+function update(resource, firebase, payload, uuid) {
   var updates = {};
   
-  updates[`/${resource}/${userId}`] = payload;
+  updates[`/${resource}/${uuid}`] = payload;
 
   return firebase
     .database()
