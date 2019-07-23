@@ -1,5 +1,10 @@
 A dead simple hello-world
 
+# Run project
+```
+npm i && npm run dev
+```
+
 # Notes
 Get the `OWNER_EXT_ID` on Twitch Dev.
 ```bash
