@@ -9,7 +9,7 @@ const crypto = require("crypto");
 function create(resource, firebase, payload) {
 
   const uuid = crypto.randomBytes(20).toString("hex");
-  return firebase
+  firebase
     .database()
     .ref(`${resource}/${uuid}`)
     .set(payload, (error) => {
@@ -18,6 +18,10 @@ function create(resource, firebase, payload) {
       }
       console.log(`Data successfully registered for resource ${resource} !`)
     });
+  return {
+    uuid,
+    payload
+  }
 }
 
 module.exports = create;

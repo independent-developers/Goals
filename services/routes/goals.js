@@ -1,14 +1,14 @@
 const DAL = require("../DAL");
 
 function create(request, h) {
-    console.log(':: create', request.payload)
+    console.log(':: creating goal..')
+    
+    const listCreated = DAL.create("goals", DAL.firebase, request.payload);
     return {
-        "success": true,
-        "goal": {
-            "name": STORE.name,
-            "name": STORE.amount
-        }
-    }
+        success: true,
+        list: listCreated.payload,
+        listId: listCreated.uuid
+    };
 }
 
 function update(request, h) {

@@ -1,26 +1,26 @@
-const lists = require('./lists')
+const goals = require('./goals')
 const users  = require('./users')
 
-// Routes for lists
-const Lists = [
+// Routes for goals
+const Goals = [
   {
     method: "POST",
     path: "/goals",
-    handler: lists.create
+    handler: goals.create
   },
   {
     method: "PUT",
-    path: "/goals",
-    handler: lists.update
+    path: "/goals/{goalId?}",
+    handler: goals.update
   },
   {
     method: "DELETE",
     path: "/goals",
-    handler: lists.remove
+    handler: goals.remove
   }
 ];
 
-// Routes for lists
+// Routes for goals
 const Users = [
   {
     method: "POST",
@@ -41,6 +41,6 @@ const Users = [
   }
 ];
 
-const routes = Lists.concat(Users);
+const routes = Goals.concat(Users);
 
 module.exports = routes;
