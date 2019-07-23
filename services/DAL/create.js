@@ -1,24 +1,35 @@
 const crypto = require("crypto");
 
-/**
- * Create entry in database
- * @param {string} resource 
- * @param {Object} firebase 
- * @param {Object} payload 
- */
-function create(resource, firebase, payload) {
-  if(payload && payload.streamerId) {
-    console.log('StreamerId not found !')
-  }
-  const uuid = payload.streamerId || crypto.randomBytes(20).toString("hex");
+function goal(firebase, payload, userId){
+  const token = crypto.randomBytes(20).toString("hex");
+  const goalId = `${userId}_${token}` 
+
   firebase
     .database()
-    .ref(`${resource}/${uuid}`)
+    .ref(`${userId}/${goalId}`)
+    .set(payload, (error) => {
+      if(!error){
+        console.log(':: Goal created !', goalId)
+      }
+      console.log(':: Error while creating goal', error)
+    })
+  return {
+    goalId,
+    userId
+  }
+}
+
+
+function user(firebase, payload){
+  const uuid = payload.userId || crypto.randomBytes(20).toString("hex");
+  firebase
+    .database()
+    .ref(`${uuid}`)
     .set(payload, (error) => {
       if(error) {
         console.log('An error occurred while creating data', error)
       }
-      console.log(`Data successfully registered for resource ${resource} !`)
+      console.log(`:: User created !`)
     });
   return {
     uuid,
@@ -26,4 +37,7 @@ function create(resource, firebase, payload) {
   }
 }
 
-module.exports = create;
+module.exports = {
+  goal,
+  user
+};

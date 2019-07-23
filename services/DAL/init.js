@@ -10,20 +10,8 @@ const firebaseConfig = {
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.FIREBASE_SENDER_ID,
     appId: process.env.FIREBASE_APP_ID
-  };
+};
 
 firebase.initializeApp(firebaseConfig);
 
-
-const create = require('./create')
-const update = require('./update');
-const remove = require('./remove');
-
-
-module.exports = {
-    firebase,
-    config: firebaseConfig,
-    create,
-    update,
-    remove
-}
+module.exports = firebase;

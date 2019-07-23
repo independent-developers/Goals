@@ -1,9 +1,20 @@
-function remove(resource, firebase, payload) {
-    console.log(`:: Removing all ${resource}..`)
+function all(firebase) {
+    console.log(`:: Removing all users..`)
     return firebase
         .database()
-        .ref(`${resource}/`)
+        .ref()
         .remove();
 }
 
-module.exports = remove;
+function user(firebase, userId) {
+    console.log(`:: Removing user ${userId}..`)
+    return firebase
+        .database()
+        .ref(`${userId}/`)
+        .remove();
+}
+
+module.exports = {
+    all,
+    user
+};

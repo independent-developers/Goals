@@ -2,15 +2,24 @@ const Boom = require('boom');
 
 const DAL = require('../DAL')
 
+async function fetch(request, h){
+    const { userId } = request.params;
+    console.log(':: fetching ..')
+    const res =  await DAL.firebase.database()
+        .ref(`${userId}`)
+        .once('value')
+        .then(snapshot => snapshot);
+    return h.response(res).code(200)
+      
+}
+
 function create(request, h) {
     console.log(':: creating user..')
-    
-    const userCreated = DAL.create("users", DAL.firebase, request.payload);
-    return {
+    const userCreated = DAL.create.user(DAL.firebase, request.payload);
+    return h.response({
         success: true,
-        user: userCreated.payload,
         userId: userCreated.uuid
-    };
+    }).code(201);
 }
 
 
@@ -26,16 +35,25 @@ function update(request, h) {
 }
 
 function remove(request, h) {
-  const resource = request.url.pathname.split('/')[1];
-  console.log(`:: remove all ${resource}..`)
-  DAL.remove(resource, DAL.firebase, request.payload);
-  return h.response({
-      success: true,
-      message: `All ${resource} have been removed.`
-  }).code(200)
+    const { userId } = request.params;
+    if(userId && userId !== undefined) {
+        console.log(`:: remove user ${userId}..`)
+        DAL.remove.user(DAL.firebase, userId);
+        return h.response({
+            success: true,
+            message: `User ${userId} has been removed.`
+        }).code(200)
+    }
+    console.log(`:: remove all..`)
+    DAL.remove.all(DAL.firebase);
+    return h.response({
+        success: true,
+        message: `All users has been removed.`
+    }).code(200)
 }
 
 module.exports = {
+    fetch,
     create,
     update,
     remove
