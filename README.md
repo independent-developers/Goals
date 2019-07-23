@@ -1,6 +1,7 @@
 A dead simple hello-world
 
 # Run project
+Run this simple command
 ```
 npm i && npm run dev
 ```
