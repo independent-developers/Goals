@@ -1,7 +1,7 @@
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi')
 
 const usersSchema = Joi.object().keys({
-    username: Joi.string().
+  username: Joi.string()
 })
 
-module.exports = usersSchema;
+module.exports = usersSchema
