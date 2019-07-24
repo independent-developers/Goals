@@ -10,7 +10,7 @@ const routes = [
   },
   {
     method: "POST",
-    path: "/users",
+    path: "/users/{userId?}",
     handler: users.create
   },
   {

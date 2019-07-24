@@ -19,8 +19,8 @@ function goal(firebase, payload, userId) {
   }
 }
 
-function user(firebase, payload) {
-  const uuid = payload.userId || crypto.randomBytes(20).toString('hex')
+function user(firebase, payload, userId) {
+  const uuid = userId || crypto.randomBytes(20).toString('hex')
   firebase
     .database()
     .ref(`app/${uuid}`)

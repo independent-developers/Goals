@@ -11,8 +11,9 @@ async function fetch(request, h) {
 }
 
 function create(request, h) {
-  console.log(':: creating user..')
-  const userCreated = DAL.create.user(DAL.firebase, request.payload)
+  const { userId } = request.params;
+  console.log(':: creating user..', userId)
+  const userCreated = DAL.create.user(DAL.firebase, request.payload, userId)
   return h
     .response({
       success: true,

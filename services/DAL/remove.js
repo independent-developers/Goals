@@ -2,7 +2,7 @@ function all(firebase) {
   console.log(`:: Removing all users..`)
   return firebase
     .database()
-    .ref()
+    .ref(`app/`)
     .remove()
 }
 
