@@ -44,12 +44,16 @@ function add_element() {
                 "text-decoration": "line-through",
                 "text-decoration-color": "#000000"
             });
+
+            $('#title_'+index).attr('contenteditable', false);
         }
         else {
             twitch.rig.log('not checked index: '+index);
             $('#title_'+index).css({
                 "text-decoration": "none"
             });
+
+            $('#title_'+index).attr('contenteditable', true);
         }
     });
 
