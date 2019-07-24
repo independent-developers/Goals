@@ -13,7 +13,8 @@ curl -H "Client-ID: <client id>" -X GET "https://api.twitch.tv/helix/users?login
 ```
 # Resources
 - [Twitch extension - Boilerplate](https://github.com/twitchdev/extensions-hello-world)
-- [Firebase]()
+- [Twitch - EBS PubSub](https://dev.twitch.tv/docs/extensions/reference/#send-extension-pubsub-message)
+- [Firebase](https://firebase.google.com/docs/database?authuser=0)
 - [Cloud Firestore - Realtime Database](https://firebase.google.com/docs/database/rtdb-vs-firestore?authuser=0)
 
 # Structure of the `.env` file
