@@ -5,7 +5,6 @@
 	"github": {
 		"autoAlias": true
 	},
-	"builds": [{ "src": "services/backend.js", "use": "@now/node" }],
 	"env": {
 		"TWITCH_EXT_SECRET": "@twitch_ext_secret",
 		"TWITCH_CLIENT_ID": "@twitch_client_id",
