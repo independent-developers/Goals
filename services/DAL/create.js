@@ -1,8 +1,7 @@
 const crypto = require('crypto')
 
 function goal(firebase, payload, userId) {
-  const token = crypto.randomBytes(20).toString('hex')
-  const goalId = `${userId}_${token}`
+  const goalId = crypto.randomBytes(20).toString('hex')
 
   firebase
     .database()
