@@ -44,7 +44,10 @@ div.list {
 
 /* CELL OF GOAL */
 div.cell {
-    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: auto;
+    min-height: 30px;
 }
 
 span.title {
