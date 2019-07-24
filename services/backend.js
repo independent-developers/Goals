@@ -16,11 +16,11 @@
 'use strict'
 
 require('dotenv').config()
-const fs = require('fs');
-const ext = require('commander');
-const path = require('path');
-const Hapi = require('@hapi/hapi');
-const color = require('color');
+const fs = require('fs')
+const ext = require('commander')
+const path = require('path')
+const Hapi = require('@hapi/hapi')
+const color = require('color')
 
 // Libraries
 const apiRoutes = require('./routes/index')
@@ -30,30 +30,30 @@ const apiRoutes = require('./routes/index')
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Use verbose logging during development.  Set this to false for production.
-const verboseLogging = true;
-const verboseLog = verboseLogging ? console.log.bind(console) : () => { };
+const verboseLogging = true
+const verboseLog = verboseLogging ? console.log.bind(console) : () => {}
 
-const PORT = 3000;
+const PORT = 3000
 
 const serverOptions = {
-  host: "localhost",
+  host: 'localhost',
   port: PORT,
   routes: {
     cors: {
-      origin: ["*"]
+      origin: ['*']
     }
   }
-};
+}
 
 // Service state variables
-const initialColor = color('#6441A4');      // super important; bleedPurple, etc.
-const userCooldownMs = 1000;                // maximum input rate per user to prevent bot abuse
-const userCooldownClearIntervalMs = 60000;  // interval to reset our tracking object
-const channelCooldownMs = 1000;             // maximum broadcast rate per channel
-const bearerPrefix = 'Bearer ';             // HTTP authorization headers have this prefix
-const channelColors = {};
-const channelCooldowns = {};                // rate limit compliance
-let userCooldowns = {};                     // spam prevention
+const initialColor = color('#6441A4') // super important; bleedPurple, etc.
+const userCooldownMs = 1000 // maximum input rate per user to prevent bot abuse
+const userCooldownClearIntervalMs = 60000 // interval to reset our tracking object
+const channelCooldownMs = 1000 // maximum broadcast rate per channel
+const bearerPrefix = 'Bearer ' // HTTP authorization headers have this prefix
+const channelColors = {}
+const channelCooldowns = {} // rate limit compliance
+let userCooldowns = {} // spam prevention
 
 const STRINGS = {
   secretEnv: usingValue('secret'),
@@ -70,56 +70,59 @@ const STRINGS = {
   sendColor: 'Sending color %s to c:%s',
   cooldown: 'Please wait before clicking again',
   invalidAuthHeader: 'Invalid authorization header',
-  invalidJwt: 'Invalid JWT',
-};
+  invalidJwt: 'Invalid JWT'
+}
 
-ext.
-  version(require('../package.json').version).
-  option('-s, --secret <secret>', 'Extension secret').
-  option('-c, --client-id <client_id>', 'Extension client ID').
-  option('-o, --owner-id <owner_id>', 'Extension owner ID').
-  parse(process.argv);
+ext
+  .version(require('../package.json').version)
+  .option('-s, --secret <secret>', 'Extension secret')
+  .option('-c, --client-id <client_id>', 'Extension client ID')
+  .option('-o, --owner-id <owner_id>', 'Extension owner ID')
+  .parse(process.argv)
 
-
-
-const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server');
-if (fs.existsSync(serverPathRoot + '.crt') && fs.existsSync(serverPathRoot + '.key')) {
+const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server')
+if (
+  fs.existsSync(serverPathRoot + '.crt') &&
+  fs.existsSync(serverPathRoot + '.key')
+) {
   serverOptions.tls = {
     // If you need a certificate, execute "npm run cert".
     cert: fs.readFileSync(serverPathRoot + '.crt'),
-    key: fs.readFileSync(serverPathRoot + '.key'),
-  };
+    key: fs.readFileSync(serverPathRoot + '.key')
+  }
 }
 console.log('Creating server..')
-const server = new Hapi.Server(serverOptions);
+const server = new Hapi.Server(serverOptions)
 
-(async () => {
+;(async () => {
   console.log('--------')
   apiRoutes.forEach(route => {
     console.log(`${route.method} http://localhost:${route.path}`)
-    server.route(route);
-  });
+    server.route(route)
+  })
   console.log('--------')
 
   // Start the sercolorCycleHandlerver.
-  await server.start();
-  console.log(STRINGS.serverStarted, server.info.uri);
+  await server.start()
+  console.log(STRINGS.serverStarted, server.info.uri)
 
   // Periodically clear cool-down tracking to prevent unbounded growth due to
   // per-session logged-out user tokens.
-  setInterval(() => { userCooldowns = {}; }, userCooldownClearIntervalMs);
-})();
+  setInterval(() => {
+    userCooldowns = {}
+  }, userCooldownClearIntervalMs)
+})()
 
 function usingValue(name) {
-  return `Using environment variable for ${name}`;
+  return `Using environment variable for ${name}`
 }
 
 function missingValue(name, variable) {
-  const option = name.charAt(0);
-  return `Extension ${name} required.\nUse argument "-${option} <${name}>" or environment variable "${variable}".`;
+  const option = name.charAt(0)
+  return `Extension ${name} required.\nUse argument "-${option} <${name}>" or environment variable "${variable}".`
 }
 
-process.on('unhandledRejection', (err) => {
-  console.log(err);
-  process.exit(1);
-});
+process.on('unhandledRejection', err => {
+  console.log(err)
+  process.exit(1)
+})

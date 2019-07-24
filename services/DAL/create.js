@@ -1,14 +1,14 @@
-const crypto = require("crypto");
+const crypto = require('crypto')
 
-function goal(firebase, payload, userId){
-  const token = crypto.randomBytes(20).toString("hex");
-  const goalId = `${userId}_${token}` 
+function goal(firebase, payload, userId) {
+  const token = crypto.randomBytes(20).toString('hex')
+  const goalId = `${userId}_${token}`
 
   firebase
     .database()
-    .ref(`${userId}/${goalId}`)
-    .set(payload, (error) => {
-      if(!error){
+    .ref(`app/${userId}/${goalId}`)
+    .set(payload, error => {
+      if (!error) {
         console.log(':: Goal created !', goalId)
       }
       console.log(':: Error while creating goal', error)
@@ -19,18 +19,17 @@ function goal(firebase, payload, userId){
   }
 }
 
-
-function user(firebase, payload){
-  const uuid = payload.userId || crypto.randomBytes(20).toString("hex");
+function user(firebase, payload) {
+  const uuid = payload.userId || crypto.randomBytes(20).toString('hex')
   firebase
     .database()
-    .ref(`${uuid}`)
-    .set(payload, (error) => {
-      if(error) {
+    .ref(`app/${uuid}`)
+    .set(payload, error => {
+      if (error) {
         console.log('An error occurred while creating data', error)
       }
       console.log(`:: User created !`)
-    });
+    })
   return {
     uuid,
     payload
@@ -40,4 +39,4 @@ function user(firebase, payload){
 module.exports = {
   goal,
   user
-};
+}

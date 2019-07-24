@@ -1,13 +1,12 @@
-
 function update(resource, firebase, payload, uuid) {
-  var updates = {};
-  
-  updates[`/${resource}/${uuid}`] = payload;
+  var updates = {}
+
+  updates[`/${resource}/${uuid}`] = payload
 
   return firebase
     .database()
     .ref()
-    .update(updates);
+    .update(updates)
 }
 
-module.exports = update;
+module.exports = update
