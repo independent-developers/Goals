@@ -10,7 +10,7 @@ function user(firebase, userId) {
   console.log(`:: Removing user ${userId}..`)
   return firebase
     .database()
-    .ref(`${userId}/`)
+    .ref(`app/${userId}`)
     .remove()
 }
 
