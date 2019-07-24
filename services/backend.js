@@ -36,13 +36,13 @@ const verboseLog = verboseLogging ? console.log.bind(console) : () => {}
 const PORT = 3000
 
 const serverOptions = {
-  host: 'localhost',
-  port: PORT,
-  routes: {
-    cors: {
-      origin: ['*']
-    }
-  }
+	host: 'localhost',
+	port: PORT,
+	routes: {
+		cors: {
+			origin: ['*'],
+		},
+	},
 }
 
 // Service state variables
@@ -56,73 +56,73 @@ const channelCooldowns = {} // rate limit compliance
 let userCooldowns = {} // spam prevention
 
 const STRINGS = {
-  secretEnv: usingValue('secret'),
-  clientIdEnv: usingValue('client-id'),
-  ownerIdEnv: usingValue('owner-id'),
-  serverStarted: 'Server running at %s',
-  secretMissing: missingValue('secret', 'EXT_SECRET'),
-  clientIdMissing: missingValue('client ID', 'EXT_CLIENT_ID'),
-  ownerIdMissing: missingValue('owner ID', 'EXT_OWNER_ID'),
-  messageSendError: 'Error sending message to channel %s: %s',
-  pubsubResponse: 'Message to c:%s returned %s',
-  cyclingColor: 'Cycling color for c:%s on behalf of u:%s',
-  colorBroadcast: 'Broadcasting color %s for c:%s',
-  sendColor: 'Sending color %s to c:%s',
-  cooldown: 'Please wait before clicking again',
-  invalidAuthHeader: 'Invalid authorization header',
-  invalidJwt: 'Invalid JWT'
+	secretEnv: usingValue('secret'),
+	clientIdEnv: usingValue('client-id'),
+	ownerIdEnv: usingValue('owner-id'),
+	serverStarted: 'Server running at %s',
+	secretMissing: missingValue('secret', 'EXT_SECRET'),
+	clientIdMissing: missingValue('client ID', 'EXT_CLIENT_ID'),
+	ownerIdMissing: missingValue('owner ID', 'EXT_OWNER_ID'),
+	messageSendError: 'Error sending message to channel %s: %s',
+	pubsubResponse: 'Message to c:%s returned %s',
+	cyclingColor: 'Cycling color for c:%s on behalf of u:%s',
+	colorBroadcast: 'Broadcasting color %s for c:%s',
+	sendColor: 'Sending color %s to c:%s',
+	cooldown: 'Please wait before clicking again',
+	invalidAuthHeader: 'Invalid authorization header',
+	invalidJwt: 'Invalid JWT',
 }
 
 ext
-  .version(require('../package.json').version)
-  .option('-s, --secret <secret>', 'Extension secret')
-  .option('-c, --client-id <client_id>', 'Extension client ID')
-  .option('-o, --owner-id <owner_id>', 'Extension owner ID')
-  .parse(process.argv)
+	.version(require('../package.json').version)
+	.option('-s, --secret <secret>', 'Extension secret')
+	.option('-c, --client-id <client_id>', 'Extension client ID')
+	.option('-o, --owner-id <owner_id>', 'Extension owner ID')
+	.parse(process.argv)
 
 const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server')
 if (
-  fs.existsSync(serverPathRoot + '.crt') &&
-  fs.existsSync(serverPathRoot + '.key')
+	fs.existsSync(serverPathRoot + '.crt') &&
+	fs.existsSync(serverPathRoot + '.key')
 ) {
-  serverOptions.tls = {
-    // If you need a certificate, execute "npm run cert".
-    cert: fs.readFileSync(serverPathRoot + '.crt'),
-    key: fs.readFileSync(serverPathRoot + '.key')
-  }
+	serverOptions.tls = {
+		// If you need a certificate, execute "npm run cert".
+		cert: fs.readFileSync(serverPathRoot + '.crt'),
+		key: fs.readFileSync(serverPathRoot + '.key'),
+	}
 }
 console.log('Creating server..')
 const server = new Hapi.Server(serverOptions)
 
 ;(async () => {
-  console.log('--------')
-  apiRoutes.forEach(route => {
-    console.log(`${route.method} http://localhost:${route.path}`)
-    server.route(route)
-  })
-  console.log('--------')
+	console.log('--------')
+	apiRoutes.forEach(route => {
+		console.log(`${route.method} http://localhost:${route.path}`)
+		server.route(route)
+	})
+	console.log('--------')
 
-  // Start the sercolorCycleHandlerver.
-  await server.start()
-  console.log(STRINGS.serverStarted, server.info.uri)
+	// Start the sercolorCycleHandlerver.
+	await server.start()
+	console.log(STRINGS.serverStarted, server.info.uri)
 
-  // Periodically clear cool-down tracking to prevent unbounded growth due to
-  // per-session logged-out user tokens.
-  setInterval(() => {
-    userCooldowns = {}
-  }, userCooldownClearIntervalMs)
+	// Periodically clear cool-down tracking to prevent unbounded growth due to
+	// per-session logged-out user tokens.
+	setInterval(() => {
+		userCooldowns = {}
+	}, userCooldownClearIntervalMs)
 })()
 
 function usingValue(name) {
-  return `Using environment variable for ${name}`
+	return `Using environment variable for ${name}`
 }
 
 function missingValue(name, variable) {
-  const option = name.charAt(0)
-  return `Extension ${name} required.\nUse argument "-${option} <${name}>" or environment variable "${variable}".`
+	const option = name.charAt(0)
+	return `Extension ${name} required.\nUse argument "-${option} <${name}>" or environment variable "${variable}".`
 }
 
 process.on('unhandledRejection', err => {
-  console.log(err)
-  process.exit(1)
+	console.log(err)
+	process.exit(1)
 })
