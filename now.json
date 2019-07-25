@@ -11,7 +11,7 @@
 	"routes": [
 		{
 			"src": "/(.*)",
-			"dest": "/services/backend.js"
+			"dest": "services/backend.js"
 		}
 	],
 	"github": {
