@@ -1,11 +1,17 @@
 {
 	"name": "Goals",
 	"version": 2,
-	"scope": "idependant-developers",
+	"scope": "independant-developers",
 	"builds": [
 		{
 			"src": "services/backend.js",
 			"use": "@now/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "/services/backend.js"
 		}
 	],
 	"github": {
