@@ -2,14 +2,6 @@ const Boom = require('boom')
 
 const DAL = require('../DAL')
 
-async function fetch(request, h) {
-	const { userId } = request.params
-	console.log(':: fetching ..')
-	if (!userId) return Boom.badRequest('Missing userId')
-	const res = await DAL.fetch(DAL.firebase, userId)
-	return h.response(res).code(200)
-}
-
 function create(request, h) {
 	const { userId } = request.params
 	console.log(':: creating user..', userId)
@@ -56,7 +48,6 @@ function remove(request, h) {
 }
 
 module.exports = {
-	fetch,
 	create,
 	update,
 	remove,

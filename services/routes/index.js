@@ -5,8 +5,8 @@ const users = require('./users')
 const routes = [
 	{
 		method: 'GET',
-		path: '/users/{userId}',
-		handler: users.fetch,
+		path: '/users/{userId}/goals',
+		handler: goals.fetch,
 	},
 	{
 		method: 'POST',

@@ -1,14 +1,27 @@
+// https://stackoverflow.com/questions/48246550/returning-array-after-finish-reading-from-firebase
 function fetch(firebase, userId) {
-  const goals = firebase
-    .database()
-    .ref(`app/${userId}`)
-    .once('value')
-    .then(goals => goals)
-    .catch(error => {
-      throw error
-    })
+	const query = firebase.database().ref(`app/${userId}`)
 
-  return goals
+	let goals = []
+	return new Promise((resolve, reject) => {
+		query
+			.once('value')
+			.then(snap => {
+				console.log(':: Found goals !')
+				snap.forEach(child => {
+					console.log(':: formatting goals..')
+					let key = child.key
+					let data = child.val()
+					goals.push({ key, title: data.title, check: data.checked })
+				})
+				resolve(goals)
+			})
+			.catch(error => {
+				console.log('Whoops, an error occurred trying to find goals !')
+				throw error
+			})
+		return goals
+	})
 }
 
 module.exports = fetch
