@@ -5,7 +5,7 @@
 	"builds": [
 		{
 			"src": "services/backend.js",
-			"use": "@now/node-server"
+			"use": "@now/node"
 		}
 	],
 	"github": {
