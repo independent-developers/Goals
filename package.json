@@ -10,7 +10,8 @@
 		"cert": "node bin/generate_cert.js server",
 		"build": "npm i",
 		"start": "node services/backend",
-		"dev": "./node_modules/.bin/nodemon services/backend"
+		"dev": "./node_modules/.bin/nodemon services/backend",
+		"postinstall": "npm rebuild"
 	},
 	"keywords": [
 		"twitch",
