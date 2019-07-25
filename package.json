@@ -1,10 +1,10 @@
 {
-	"name": "Goals",
+	"name": "goals",
 	"version": "0.0.1",
 	"description": "Simple Todo system",
 	"main": "index.js",
 	"engines": {
-		"node": "10.13.0"
+		"node": "10.x"
 	},
 	"scripts": {
 		"cert": "node bin/generate_cert.js server",
