@@ -4,14 +4,13 @@
 	"description": "Simple Todo system",
 	"main": "index.js",
 	"engines": {
-		"node": ">=10.0.0 <12.7.0"
+		"node": "10.13.0"
 	},
 	"scripts": {
 		"cert": "node bin/generate_cert.js server",
 		"build": "npm i",
 		"start": "node services/backend",
-		"dev": "./node_modules/.bin/nodemon services/backend",
-		"postinstall": "npm rebuild"
+		"dev": "./node_modules/.bin/nodemon services/backend"
 	},
 	"keywords": [
 		"twitch",
