@@ -5,10 +5,7 @@
 	"builds": [
 		{
 			"src": "api/goals/*.js",
-			"use": "@now/node",
-			"config": {
-				"maxLambdaSize": "50mb"
-			}
+			"use": "@now/node"
 		},
 		{
 			"src": "api/payments/*.js",
