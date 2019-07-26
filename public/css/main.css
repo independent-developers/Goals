@@ -12,6 +12,7 @@ body {
 /* HEADER */
 .section-header {
     position: fixed;
+    clear: right;
     width: 100%;
     left: 0;
     top : 0;
@@ -20,7 +21,26 @@ body {
 }
 
 h2.title {
-    text-align: center;
+    text-align: right;
+    cursor: default;
+    display: inline-block;
+    width: 61.6%;
+}
+
+button.btn_delete {
+    margin-top: 27px;
+    margin-right: 10px;
+    float: right;
+    color: red;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    border-width: 0;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button.btn_delete:focus {
+    outline:0 !important;
 }
 
 div.title-section {
@@ -36,7 +56,7 @@ hr.separator {
 
 /* LIST OF GOALS */
 div.list {
-    margin-top: 80px;
+    margin-top: 95px;
     margin-bottom: 40px;
 }
 
@@ -148,7 +168,8 @@ button.add {
     color: #ffffff; 
     background-color: #000000; 
     border-width: 0; 
-    height: 30px; 
+    height: 30px;
+    cursor: pointer; 
     font-size: 1rem;
     font-family: 'Open Sans', sans-serif;
     z-index: 2;
