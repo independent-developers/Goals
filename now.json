@@ -2,7 +2,7 @@
 	"name": "Goals",
 	"version": 2,
 	"scope": "independant-developers",
-	
+	"alias": "goals",
 	"builds": [
 		{
 			"src": "services/backend.js",
@@ -16,9 +16,6 @@
 			"dest": "services/backend.js"
 		}
 	],
-	"github": {
-		"autoAlias": true
-	},
 	"env": {
 		"TWITCH_EXT_SECRET": "@twitch_ext_secret",
 		"TWITCH_CLIENT_ID": "@twitch_client_id",
