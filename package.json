@@ -1,28 +1,39 @@
 {
-  "name": "Goals",
-  "version": "0.0.1",
-  "description": "Simple Todo system",
-  "main": "index.js",
-  "scripts": {
-    "cert": "node bin/generate_cert.js server",
-    "start": "node services/backend"
-  },
-  "keywords": [
-    "twitch",
-    "extension"
-  ],
-  "authors": [
-    "Julien Lacroix",
-    "Ugo Arzur"
-  ],
-  "dependencies": {
-    "boom": "^7.2.0",
-    "color": "^3.0.0",
-    "commander": "^2.15.0",
-    "hapi": "^17.8.4",
-    "inert": "^5.1.0",
-    "jsonwebtoken": "^8.2.0",
-    "request": "^2.85.0",
-    "selfsigned": "^1.10.2"
-  }
+	"name": "Goals",
+	"version": "0.0.1",
+	"description": "Simple Todo system",
+	"main": "index.js",
+	"engines": {
+		"node": "10.13.0"
+	},
+	"scripts": {
+		"cert": "node bin/generate_cert.js server",
+		"build": "npm i",
+		"start": "node services/backend",
+		"dev": "./node_modules/.bin/nodemon services/backend"
+	},
+	"keywords": [
+		"twitch",
+		"extension"
+	],
+	"authors": [
+		"Julien Lacroix",
+		"Ugo Arzur"
+	],
+	"dependencies": {
+		"@hapi/hapi": "^18.3.1",
+		"@hapi/joi": "^15.1.0",
+		"boom": "^7.2.0",
+		"color": "^3.0.0",
+		"commander": "^2.15.0",
+		"dotenv": "^8.0.0",
+		"firebase": "^6.3.1",
+		"inert": "^5.1.0",
+		"jsonwebtoken": "^8.2.0",
+		"request": "^2.85.0",
+		"selfsigned": "^1.10.2"
+	},
+	"devDependencies": {
+		"nodemon": "^1.19.1"
+	}
 }
