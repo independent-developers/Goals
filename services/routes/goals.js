@@ -1,4 +1,5 @@
 const Boom = require('boom')
+const crypto = require('crypto')
 
 const DAL = require('../DAL')
 
@@ -14,16 +15,15 @@ function create(request, h) {
 	console.log(':: creating goal..')
 	if (!request.params.userId) {
 		return h
-			.response({
-				message: 'Missing userId',
-			})
+			.response({ message: 'Missing userId' })
 			.code(400)
 	}
+	const goalId = request.params.goalId || crypto.randomBytes(20).toString('hex')
 	const goalCreated = DAL.create.goal(
 		DAL.firebase,
 		request.payload,
-		request.params.userId
-	)
+		request.params.userId,
+		goalId)
 	return h
 		.response({
 			success: true,
@@ -36,9 +36,7 @@ function remove(request, h) {
 	const { userId, goalId } = request.params
 	if (!request.params.userId) {
 		return h
-			.response({
-				message: 'Missing userId',
-			})
+			.response({ message: 'Missing userId' })
 			.code(400)
 	}
 	if (userId && goalId) {

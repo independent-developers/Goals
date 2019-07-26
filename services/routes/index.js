@@ -20,7 +20,7 @@ const routes = [
 	},
 	{
 		method: 'POST',
-		path: '/users/{userId}/goals',
+		path: '/users/{userId}/goals/{goalId?}',
 		handler: goals.create,
 	},
 	{
