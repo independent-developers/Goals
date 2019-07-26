@@ -42,7 +42,8 @@ function add_element() {
             twitch.rig.log('checked index: '+index);
             $('#title_'+index).css({
                 "text-decoration": "line-through",
-                "text-decoration-color": "#000000"
+                "text-decoration-color": "#000000",
+                "cursor": "default"
             });
 
             $('#title_'+index).attr('contenteditable', false);
@@ -50,7 +51,8 @@ function add_element() {
         else {
             twitch.rig.log('not checked index: '+index);
             $('#title_'+index).css({
-                "text-decoration": "none"
+                "text-decoration": "none",
+                "cursor": "text"
             });
 
             $('#title_'+index).attr('contenteditable', true);
