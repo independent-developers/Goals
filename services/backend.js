@@ -97,7 +97,7 @@ const server = new Hapi.Server(serverOptions)
 ;(async () => {
 	console.log('--------')
 	apiRoutes.forEach(route => {
-		console.log(`${route.method} http://localhost:${route.path}`)
+		console.log(`${route.method} http://localhost:${PORT}${route.path}`)
 		server.route(route)
 	})
 	console.log('--------')

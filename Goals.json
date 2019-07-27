@@ -1,12 +1,12 @@
 {
   "allowHttpBackend": false,
-  "backendCommand": "",
-  "backendFolderName": "",
+  "backendCommand": "node backend.js",
+  "backendFolderName": "D:\\dev\\Goals\\services",
   "certificateExceptions": [],
   "extensionViews": [
     {
       "id": "1",
-      "label": "PANEL",
+      "label": "Panel",
       "channelId": "132041668",
       "configurationAnchor": "panel",
       "displayChannelName": "carbow",

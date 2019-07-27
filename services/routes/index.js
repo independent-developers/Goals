@@ -1,31 +1,37 @@
 const goals = require('./goals')
 const users = require('./users')
+const key = 'api'
 
 // Routes for goals
 const routes = [
 	{
 		method: 'GET',
-		path: '/users/{userId}/goals',
+		path: '/',
+		handler: goals.fetch,
+	},
+	{
+		method: 'GET',
+		path: `/${key}/users/{userId}/goals`,
 		handler: goals.fetch,
 	},
 	{
 		method: 'POST',
-		path: '/users/{userId?}',
+		path: `/${key}/users/{userId?}`,
 		handler: users.create,
 	},
 	{
 		method: 'DELETE',
-		path: '/users/{userId?}',
+		path: `/${key}/users/{userId?}`,
 		handler: users.remove,
 	},
 	{
 		method: 'POST',
-		path: '/users/{userId}/goals/{goalId?}',
+		path: `/${key}/users/{userId}/goals/{goalId?}`,
 		handler: goals.create,
 	},
 	{
 		method: 'DELETE',
-		path: '/users/{userId}/goals/{goalId?}',
+		path: `/${key}/users/{userId}/goals/{goalId?}`,
 		handler: goals.remove,
 	},
 ]
