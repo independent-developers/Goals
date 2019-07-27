@@ -4,6 +4,8 @@ const BASE_URL = 'http://localhost:3000/api'
 /**
  * Getch the streamer's goals list
  * @param {Integer} streamerId
+ * @returns {Array} Streamer's goals
+ * @returns {Boolean} Return the success of the request
  */
 function fetchGoals(streamerId) {
 	return fetch(`${BASE_URL}/users/${streamerId}/goals`)
@@ -14,7 +16,12 @@ function fetchGoals(streamerId) {
 			throw error
 		})
 }
-
+/**
+ * Set goals for the streamer
+ * @param {Integer} streamerId 
+ * @param {Array} goals The array you want
+ * @returns {Boolean} Return the success of the request
+ */
 function setGoals(streamerId, goals = []) {
 	goals.forEach(goal => {
 		let url = ''
@@ -24,23 +31,21 @@ function setGoals(streamerId, goals = []) {
 			url = `${BASE_URL}/users/${streamerId}/goals`
 		}
 		return fetch(url, {
-			method: 'POST', // *GET, POST, PUT, DELETE, etc.
-			mode: 'cors', // no-cors, cors, *same-origin
-			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-			credentials: 'same-origin', // include, *same-origin, omit
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				'Accept': 'application/json',
 			},
 			body: JSON.stringify({
 				title: goal.title,
 				checked: goal.check,
-			}), // body data type must match "Content-Type" header
+			}),
 		})
-			.then(response => response.json()) // parses JSON response into native JavaScript objects
-			.catch(error => {
-				console.error('An error occurred while setting some goals', error)
-				throw error
-			})
+		.then(response => response.json())
+		.catch(error => {
+			console.error('An error occurred while setting some goals', error)
+			throw error
+		})
 	})
 }
 
