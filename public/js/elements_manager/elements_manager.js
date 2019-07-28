@@ -5,12 +5,25 @@ const twitch = window.Twitch.ext;
 // Model
 var index = 1;
 var delete_mode = false;
+var isBroadcaster = false;
 
 
 
 //  Lifecycle
 // ===========
 (function($){
+    twitch.onAuthorized(function(auth) {
+        var parts = auth.token.split(".");
+        var payload = JSON.parse(window.atob(parts[1]));
+        isBroadcaster = ( payload.role == 'broadcaster' );
+        twitch.rig.log("broadcaster: ", isBroadcaster);
+    
+        // Configure view for viewer
+        if (isBroadcaster === false) {
+            $('.btn_add').css({ "display":"none" });
+            $('.btn_delete').css({ "display":"none" });
+        }
+    });
 })(window.jQuery || {});
 
 
@@ -30,7 +43,8 @@ function add_element() {
                                 '</svg>' + 
                             '</span>' +
                         '</label>' + 
-                        '<span class="title" id="title_'+index+'" contenteditable="true">Texte de la cell '+index+'</span>' +
+                        // '<span class="title" id="title_'+index+'" contenteditable="true">Texte de la cell '+index+'</span>' +
+                        '<span class="title"> <textarea class="title" id="title_'+index+'" rows="2" cols="30" data-limit-rows="true" placeholder="Enter your goal..." contenteditable="false"></textarea> </span>' +
                         '<input class="inp-trash" id="trash_'+index+'" type="button" style="display: none;"/>' +
                         '<span class="trash" for="trash_'+index+'">' +
                             '<svg width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
@@ -49,27 +63,35 @@ function add_element() {
     // Append element
     $('.list').append(element);
 
-    // Perform observer
+    // Configure textarea
+    if (isBroadcaster === false) {
+        $('#title_'+index).prop('readonly', true);
+    }
+
+    $('#title_'+index+'[data-limit-rows=true]').on('keypress', function (event) {
+        var textarea = $(this);
+        return ( textarea.val().length < 55 );
+    });
+
+    // Perform observer check action
     $('#'+index).change(function() {
         var index = this.id
         if (this.checked) {
-            twitch.rig.log('checked index: '+index);
             $('#title_'+index).css({
                 "text-decoration": "line-through",
                 "text-decoration-color": "#000000",
                 "cursor": "default"
             });
 
-            $('#title_'+index).attr('contenteditable', false);
+            $('#title_'+index).prop('readonly', true);
         }
         else {
-            twitch.rig.log('not checked index: '+index);
             $('#title_'+index).css({
                 "text-decoration": "none",
                 "cursor": "text"
             });
 
-            $('#title_'+index).attr('contenteditable', true);
+            $('#title_'+index).prop('readonly', false);
         }
     });
 
@@ -78,7 +100,7 @@ function add_element() {
 }
 
 // Function allow to delete one goal
-function delete_element() {
+function handle_delete_edit_mode() {
     if (delete_mode === false) {
         // Handle state of delete mode
         delete_mode = true;
@@ -124,11 +146,3 @@ function delete_element() {
         })
     }
 }
-
-
-
-//  Twitch: Lifecycle
-// ===================
-twitch.onAuthorized(function(auth) {
-    // twitch.rig.log('Live on channel', auth.channelId);
-});
