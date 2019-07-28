@@ -1,21 +1,8 @@
-const crypto = require('crypto')
-
-function goal(firebase, payload, userId) {
-	const goalId = crypto.randomBytes(20).toString('hex')
-
-	firebase
+function goal(firebase, payload, userId, goalId) {
+	return firebase
 		.database()
 		.ref(`app/${userId}/${goalId}`)
-		.set(payload, error => {
-			if (!error) {
-				console.log(':: Goal created !', goalId)
-			}
-			console.log(':: Error while creating goal', error)
-		})
-	return {
-		goalId,
-		userId,
-	}
+		.set(payload)
 }
 
 function user(firebase, payload, userId) {

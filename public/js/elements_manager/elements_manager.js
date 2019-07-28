@@ -1,6 +1,74 @@
-const twitch = window.Twitch.ext;
+const twitch = window.Twitch.ext
+const BASE_URL = 'http://localhost:3000/api'
 
+/**
+ * Getch the streamer's goals list
+ * @param {Integer} streamerId
+ * @returns {Array} Streamer's goals
+ * @returns {Boolean} Return the success of the request
+ */
+function fetchGoals(streamerId) {
+	return fetch(`${BASE_URL}/users/${streamerId}/goals`)
+		.then(response => response.json())
+		.then(goals => console.log(goals))
+		.catch(error => {
+			console.error('An error occurred while fetching goals', error)
+			throw error
+		})
+}
+/**
+ * Set goals for the streamer
+ * @param {Integer} streamerId 
+ * @param {Array} goals The array you want
+ * @returns {Boolean} Return the success of the request
+ */
+function setGoals(streamerId, goals = []) {
+	goals.forEach(goal => {
+		let url = ''
+		if (goal && goal.key) {
+			url = `${BASE_URL}/users/${streamerId}/goals/${goal.key}`
+		} else {
+			url = `${BASE_URL}/users/${streamerId}/goals`
+		}
+		return fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				title: goal.title,
+				checked: goal.check,
+			}),
+		})
+		.then(response => response.json())
+		.catch(error => {
+			console.error('An error occurred while setting some goals', error)
+			throw error
+		})
+	})
+}
 
+const manager = {
+	goals: {
+		fetch: fetchGoals,
+		create: setGoals,
+	},
+}
+
+// TODO: Utiliser le manager comme suit pour fetch
+// manager.goals.fetch('1234')
+// TODO: Utiliser le manager comme suit pour create
+// manager.goals.create('1234', [{
+//     "key": "0da0d92183921efe233c79d3ca6ab5bd276641ee",
+//     "title": "Blblblblbl",
+//     "check": true
+// },
+// {
+//     "key": "34c55d8715ad3f95183e2aca5c2e4c4ac2837671",
+//     "title": "Blblblblbl",
+//     "check": false
+// }])
 
 // Model
 var index = 1;

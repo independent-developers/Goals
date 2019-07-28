@@ -2,10 +2,11 @@
   "allowHttpBackend": false,
   "backendCommand": "",
   "backendFolderName": "",
+  "certificateExceptions": [],
   "extensionViews": [
     {
       "id": "1",
-      "label": "Panel",
+      "label": "PANEL",
       "channelId": "132041668",
       "configurationAnchor": "panel",
       "displayChannelName": "carbow",
@@ -19,31 +20,6 @@
       "linkedUserId": "",
       "mode": "viewer",
       "isPopout": false,
-      "role": "Logged-Out Viewer",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "2",
-      "label": "Panel",
-      "channelId": "132041668",
-      "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
-      "type": "panel",
-      "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": true,
       "role": "Broadcaster",
       "x": 0,
       "y": 0,
@@ -54,7 +30,7 @@
       }
     },
     {
-      "id": "3",
+      "id": "2",
       "label": "Configuration",
       "channelId": "132041668",
       "configurationAnchor": "panel",
@@ -70,6 +46,31 @@
       "mode": "config",
       "isPopout": false,
       "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "3",
+      "label": "Panel - viewer logged out",
+      "channelId": "132041668",
+      "configurationAnchor": "panel",
+      "displayChannelName": "carbow",
+      "type": "panel",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Logged-Out Viewer",
       "x": 0,
       "y": 0,
       "orientation": "Portrait",
@@ -152,8 +153,7 @@
     "whitelistedPanelUrls": []
   },
   "frontendCommand": "",
-  "frontendFolderName": "D:\\dev\\Goals\\public",
+  "frontendFolderName": "/Users/Ugo/dev/Goals/public",
   "name": "Goals",
-  "certificateExceptions": [],
   "version": 1
 }
