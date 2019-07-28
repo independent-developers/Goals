@@ -80,30 +80,44 @@ function add_element() {
 // Function allow to delete one goal
 function delete_element() {
     if (delete_mode === false) {
+        // Handle state of delete mode
         delete_mode = true;
+
+        // Handle state of cells
         $('.cell').each(function() {
             $(this).removeClass('edit_mode');
             $(this).addClass('delete_mode');
         });
+
+        // Handle state of delete button
         $('.btn_delete').html('Done');
         $('.btn_delete').css({
             "color": "#000000"
         })
+
+        // Handle state of add button
         $('.btn_add').html('Delete all')
         $('.btn_add').css({
             "background-color":"#D0021B"        
         })
     }
     else {
+        // Handle state of delete mode
         delete_mode = false;
+
+        // Handle state of cells
         $('.cell').each(function() {
             $(this).removeClass('delete_mode');
             $(this).addClass('edit_mode');
         });
+
+        // Handle state of delete button
         $('.btn_delete').html('Delete');
         $('.btn_delete').css({
             "color": "#D0021B"
         })
+
+        // Handle state of add button
         $('.btn_add').html('+ Add')
         $('.btn_add').css({
             "background-color":"#000000"
