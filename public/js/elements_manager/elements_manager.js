@@ -74,6 +74,7 @@ const manager = {
 var index = 1;
 var delete_mode = false;
 var isBroadcaster = false;
+var channelID = "";
 
 
 
@@ -84,7 +85,9 @@ var isBroadcaster = false;
         var parts = auth.token.split(".");
         var payload = JSON.parse(window.atob(parts[1]));
         isBroadcaster = ( payload.role == 'broadcaster' );
+        channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
+        twitch.rig.log("channelID: ", channelID);
     
         // Configure view for viewer
         if (isBroadcaster === false) {
