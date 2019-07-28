@@ -31,7 +31,7 @@ button.btn_delete {
     margin-top: 27px;
     margin-right: 10px;
     float: right;
-    color: red;
+    color: #D0021B;
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     border-width: 0;
@@ -63,6 +63,8 @@ div.list {
 
 
 /* CELL OF GOAL */
+
+/* cell */
 div.cell {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -70,15 +72,18 @@ div.cell {
     min-height: 30px;
 }
 
+/* title */
 span.title {
     padding-left: 6px;
     vertical-align: middle;
+    padding-right: 135px;
 }
 
 span.title:focus {
     outline:0 !important;
 }
 
+/* checkbox */
 .cbx {
     margin: auto;
     -webkit-user-select: none;
@@ -157,10 +162,40 @@ span.title:focus {
     }
 }
 
+/* trash */
+.trash {
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+}
+
+.trash svg {
+    position: absolute;
+    top: -1px;
+    left: 33px;
+}
+
+
+/* CELL IN EDIT/DELETE MODE */
+.edit_mode {
+    transform: translateX(0px);
+    transition: transform 0.5s ease-in-out;
+}
+
+.delete_mode {
+    transform: translateX(-28px);
+    transition: transform 0.5s ease-in-out;
+}
+
 
 
 /* ADD GOOAL */
-button.add {
+button.btn_add {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -175,6 +210,6 @@ button.add {
     z-index: 2;
 }
 
-button.add:focus {
+button.btn_add:focus {
     outline:0 !important;
 }
