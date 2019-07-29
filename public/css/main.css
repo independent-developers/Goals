@@ -5,6 +5,7 @@
 body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #5f5f5f;
+    overflow-x: hidden;
 }
 
 
@@ -31,7 +32,7 @@ button.btn_delete {
     margin-top: 27px;
     margin-right: 10px;
     float: right;
-    color: red;
+    color: #D0021B;
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     border-width: 0;
@@ -63,6 +64,8 @@ div.list {
 
 
 /* CELL OF GOAL */
+
+/* cell */
 div.cell {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -70,15 +73,57 @@ div.cell {
     min-height: 30px;
 }
 
+/* title */
 span.title {
-    padding-left: 6px;
+    padding-left: 10px;
     vertical-align: middle;
+    width: 60px;
 }
 
 span.title:focus {
     outline:0 !important;
 }
 
+textarea.title {
+    vertical-align: middle;
+    height: 32px;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-width: 0;
+    resize: none;
+    font-size: 15px;
+    margin-top: 2px;
+    line-height: 16px;
+    border-width: 1px;
+    border-radius: 3px;
+    border-color: #FBFBFB;
+    color: #5f5f5f;
+}
+
+textarea.title:focus {
+    outline:0 !important;
+}
+
+textarea::-webkit-input-placeholder {
+    color: lightgrey;
+}
+  
+textarea:-moz-placeholder { /* Firefox 18- */
+    color: lightgrey;  
+}
+  
+textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: lightgrey;  
+}
+  
+textarea:-ms-input-placeholder {
+    color: lightgrey;  
+}
+  
+textarea::placeholder {
+    color: lightgrey;  
+}
+
+/* checkbox */
 .cbx {
     margin: auto;
     -webkit-user-select: none;
@@ -157,10 +202,39 @@ span.title:focus {
     }
 }
 
+/* trash */
+.trash {
+    position: relative;
+    float: right;
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.trash svg {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+}
+
+
+/* CELL IN EDIT/DELETE MODE */
+.edit_mode {
+    transform: translateX(0px);
+    transition: transform 0.5s ease-in-out;
+}
+
+.delete_mode {
+    transform: translateX(-28px);
+    transition: transform 0.5s ease-in-out;
+}
+
 
 
 /* ADD GOOAL */
-button.add {
+button.btn_add {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -175,6 +249,6 @@ button.add {
     z-index: 2;
 }
 
-button.add:focus {
+button.btn_add:focus {
     outline:0 !important;
 }
