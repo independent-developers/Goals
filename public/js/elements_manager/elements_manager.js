@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:5000/api'
  * @returns {Array} Streamer's goals
  * @returns {Boolean} Return the success of the request
  */
-function deleteGoals(streamerId) {
+function deleteGoals(streamerId, ) {
 	return fetch(`${BASE_URL}/users/${streamerId}`, {
         method: 'DELETE'
     })
@@ -93,10 +93,10 @@ const manager = {
 // }])
 
 // Model
-const delete_mode = false;
-const isBroadcaster = false;
-const channelID = "";
-const goals_local = [];
+let delete_mode = false;
+let isBroadcaster = false;
+let channelID = "";
+let goals_local = [];
 
 
 
@@ -104,8 +104,8 @@ const goals_local = [];
 // ===========
 (function($){
     twitch.onAuthorized(function(auth) {
-        const parts = auth.token.split(".");
-        const payload = JSON.parse(window.atob(parts[1]));
+        let parts = auth.token.split(".");
+        let payload = JSON.parse(window.atob(parts[1]));
         isBroadcaster = ( payload.role == 'broadcaster' );
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
@@ -189,10 +189,10 @@ function handle_delete_edit_mode() {
 //  Private methods
 // =================
 
-function perform_element(key, title, isChecked) {
+function perform_element(key, title, goalIsChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
-    const element =  '<div class="cell edit_mode">' +
+    let element =  '<div class="cell edit_mode">' +
                         '<input class="inp-cbx" id="'+key+'" type="checkbox" style="display: none;"/>' + 
                         '<label class="cbx" for="'+key+'">' +
                             '<span>' + 
@@ -226,7 +226,7 @@ function perform_element(key, title, isChecked) {
     }
 
     $('#title_'+key+'[data-limit-rows=true]').on('keypress', function (event) {
-        const textarea = $(this);
+        let textarea = $(this);
         if (event.which === 13 && textarea.val()) {
             textarea.blur();
         }
@@ -237,33 +237,46 @@ function perform_element(key, title, isChecked) {
     });
 
     $('#title_'+key).on('blur', function (event) {
-        const textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":false}]);
+        var textarea = $(this);
+        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
     });
+
+    if (goalIsChecked === true) {
+        $('#'+key).prop('checked', true);
+        mark_checkbox_checked(key);
+    }
+    else {
+        $('#'+key).prop('checked', false);
+        mark_checkbox_unchecked(key);
+    }
 
     // Perform observer check action
     $('#'+key).change(function() {
-        const isChecked = false;
-        if (this.isChecked) {
-            $('#title_'+key).css({
-                "text-decoration": "line-through",
-                "text-decoration-color": "#000000",
-                "cursor": "default"
-            });
-
-            $('#title_'+key).prop('readonly', true);
-            isChecked = true;
+        if (this.checked) {
+            mark_checkbox_checked(key);
         }
         else {
-            $('#title_'+key).css({
-                "text-decoration": "none",
-                "cursor": "text"
-            });
-
-            $('#title_'+key).prop('readonly', false);
-            isChecked = false;
+            mark_checkbox_unchecked(key);
         }
-        twitch.rig.log(isChecked);
-        manager.goals.create(channelID, [{ "key": key, "title": $('#title_'+key).val(), "isChecked": isChecked }]);
+        manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
     });
+}
+
+function mark_checkbox_checked(key) {
+    $('#title_'+key).css({
+        "text-decoration": "line-through",
+        "text-decoration-color": "#000000",
+        "cursor": "default"
+    });
+
+    $('#title_'+key).prop('readonly', true);
+}
+
+function mark_checkbox_unchecked(key) {
+    $('#title_'+key).css({
+        "text-decoration": "none",
+        "cursor": "text"
+    });
+
+    $('#title_'+key).prop('readonly', false);
 }
