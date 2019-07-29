@@ -94,6 +94,10 @@ var channelID = "";
             $('.btn_add').css({ "display":"none" });
             $('.btn_delete').css({ "display":"none" });
         }
+
+        // Fetch all goals
+        var goals = manager.goals.fetch(channelID);
+        twitch.rig.log(goals.length);
     });
 })(window.jQuery || {});
 
@@ -141,7 +145,18 @@ function add_element() {
 
     $('#title_'+index+'[data-limit-rows=true]').on('keypress', function (event) {
         var textarea = $(this);
+        if (event.which === 13 && textarea.val()) {
+            textarea.blur();
+        }
+        if (event.which === 13) {
+            return false;
+        }
         return ( textarea.val().length < 55 );
+    });
+
+    $('#title_'+index).on('blur', function (event) {
+        var textarea = $(this);
+        manager.goals.create(channelID, [{"key":"", "title":textarea.val(), "check":false}]);
     });
 
     // Perform observer check action
