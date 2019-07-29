@@ -243,7 +243,6 @@ function perform_element(key, title, goalIsChecked) {
 
     // Perform observer check action
     $('#'+key).change(function() {
-        var isChecked = goalIsChecked;
         if (this.checked) {
             $('#title_'+key).css({
                 "text-decoration": "line-through",
@@ -252,7 +251,6 @@ function perform_element(key, title, goalIsChecked) {
             });
 
             $('#title_'+key).prop('readonly', true);
-            isChecked = true;
         }
         else {
             $('#title_'+key).css({
@@ -261,8 +259,7 @@ function perform_element(key, title, goalIsChecked) {
             });
 
             $('#title_'+key).prop('readonly', false);
-            isChecked = false;
         }
-        manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":isChecked}]);
+        manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
     });
 }
