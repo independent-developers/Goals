@@ -12,7 +12,12 @@ function fetch(firebase, userId) {
 					console.log(':: formatting goals..')
 					let key = child.key
 					let data = child.val()
-					goals.push({ key, title: data.title, isChecked: data.isChecked })
+					goals.push({
+						key,
+						title: data.title,
+						isChecked: data.isChecked,
+						createdAt: data.createdAt
+					})
 				})
 				resolve(goals)
 			})
@@ -20,6 +25,7 @@ function fetch(firebase, userId) {
 				console.log('Whoops, an error occurred trying to find goals !')
 				reject(error)
 			})
+			goals.sort((a, b) => a.createdAt - b.createdAt);
 		return goals
 	})
 }
