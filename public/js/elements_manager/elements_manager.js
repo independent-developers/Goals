@@ -1,5 +1,22 @@
 const twitch = window.Twitch.ext
-const BASE_URL = 'http://localhost:3000/api'
+const BASE_URL = 'http://localhost:5000/api'
+
+/**
+ * Getch the streamer's goals list
+ * @param {Integer} streamerId
+ * @returns {Array} Streamer's goals
+ * @returns {Boolean} Return the success of the request
+ */
+function deleteGoals(streamerId) {
+	return fetch(`${BASE_URL}/users/${streamerId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .catch(error => {
+        console.error('An error occurred while fetching goals', error)
+        throw error
+    })
+}
 
 /**
  * Getch the streamer's goals list
@@ -38,7 +55,7 @@ function setGoals(streamerId, goals = []) {
 			},
 			body: JSON.stringify({
 				title: goal.title,
-				checked: goal.check,
+				isChecked: goal.isChecked,
 			}),
 		})
 		.then(response => response.json())
@@ -52,7 +69,8 @@ function setGoals(streamerId, goals = []) {
 const manager = {
 	goals: {
 		fetch: fetchGoals,
-		create: setGoals,
+        create: setGoals,
+        delete: deleteGoals
 	},
 }
 
@@ -62,12 +80,12 @@ const manager = {
 // manager.goals.create('1234', [{
 //     "key": "0da0d92183921efe233c79d3ca6ab5bd276641ee",
 //     "title": "Blblblblbl",
-//     "check": true
+//     "isChecked": true
 // },
 // {
 //     "key": "34c55d8715ad3f95183e2aca5c2e4c4ac2837671",
 //     "title": "Blblblblbl",
-//     "check": false
+//     "isChecked": false
 // }])
 
 // Model
@@ -162,7 +180,7 @@ function add_element() {
     // Perform observer check action
     $('#'+index).change(function() {
         var index = this.id
-        if (this.checked) {
+        if (this.isChecked) {
             $('#title_'+index).css({
                 "text-decoration": "line-through",
                 "text-decoration-color": "#000000",
