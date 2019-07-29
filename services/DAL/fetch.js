@@ -18,7 +18,7 @@ function fetch(firebase, userId) {
 			})
 			.catch(error => {
 				console.log('Whoops, an error occurred trying to find goals !')
-				throw error
+				reject(error)
 			})
 		return goals
 	})

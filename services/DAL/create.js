@@ -1,4 +1,6 @@
 function goal(firebase, payload, userId, goalId) {
+	let timestamp = new Date();
+	payload.created_at = (timestamp / 1000);
 	return firebase
 		.database()
 		.ref(`app/${userId}/${goalId}`)
