@@ -33,7 +33,7 @@ const apiRoutes = require('./routes/index')
 const verboseLogging = true
 const verboseLog = verboseLogging ? console.log.bind(console) : () => {}
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 const serverOptions = {
 	host: 'localhost',
