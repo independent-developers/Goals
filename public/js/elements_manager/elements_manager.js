@@ -189,7 +189,7 @@ function handle_delete_edit_mode() {
 //  Private methods
 // =================
 
-function perform_element(key, title, isChecked) {
+function perform_element(key, title, goalIsChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
     var element =  '<div class="cell edit_mode">' +
@@ -238,13 +238,13 @@ function perform_element(key, title, isChecked) {
 
     $('#title_'+key).on('blur', function (event) {
         var textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":false}]);
+        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
     });
 
     // Perform observer check action
     $('#'+key).change(function() {
-        var isChecked = false;
-        if (this.isChecked) {
+        var isChecked = goalIsChecked;
+        if (this.checked) {
             $('#title_'+key).css({
                 "text-decoration": "line-through",
                 "text-decoration-color": "#000000",
@@ -263,7 +263,6 @@ function perform_element(key, title, isChecked) {
             $('#title_'+key).prop('readonly', false);
             isChecked = false;
         }
-        twitch.rig.log(isChecked);
         manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":isChecked}]);
     });
 }
