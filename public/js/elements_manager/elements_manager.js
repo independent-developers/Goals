@@ -93,10 +93,10 @@ const manager = {
 // }])
 
 // Model
-var delete_mode = false;
-var isBroadcaster = false;
-var channelID = "";
-var goals_local = [];
+const delete_mode = false;
+const isBroadcaster = false;
+const channelID = "";
+const goals_local = [];
 
 
 
@@ -104,8 +104,8 @@ var goals_local = [];
 // ===========
 (function($){
     twitch.onAuthorized(function(auth) {
-        var parts = auth.token.split(".");
-        var payload = JSON.parse(window.atob(parts[1]));
+        const parts = auth.token.split(".");
+        const payload = JSON.parse(window.atob(parts[1]));
         isBroadcaster = ( payload.role == 'broadcaster' );
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
@@ -192,7 +192,7 @@ function handle_delete_edit_mode() {
 function perform_element(key, title, isChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
-    var element =  '<div class="cell edit_mode">' +
+    const element =  '<div class="cell edit_mode">' +
                         '<input class="inp-cbx" id="'+key+'" type="checkbox" style="display: none;"/>' + 
                         '<label class="cbx" for="'+key+'">' +
                             '<span>' + 
@@ -226,7 +226,7 @@ function perform_element(key, title, isChecked) {
     }
 
     $('#title_'+key+'[data-limit-rows=true]').on('keypress', function (event) {
-        var textarea = $(this);
+        const textarea = $(this);
         if (event.which === 13 && textarea.val()) {
             textarea.blur();
         }
@@ -237,13 +237,13 @@ function perform_element(key, title, isChecked) {
     });
 
     $('#title_'+key).on('blur', function (event) {
-        var textarea = $(this);
+        const textarea = $(this);
         manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":false}]);
     });
 
     // Perform observer check action
     $('#'+key).change(function() {
-        var isChecked = false;
+        const isChecked = false;
         if (this.isChecked) {
             $('#title_'+key).css({
                 "text-decoration": "line-through",
@@ -264,6 +264,6 @@ function perform_element(key, title, isChecked) {
             isChecked = false;
         }
         twitch.rig.log(isChecked);
-        manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":isChecked}]);
+        manager.goals.create(channelID, [{ "key": key, "title": $('#title_'+key).val(), "isChecked": isChecked }]);
     });
 }
