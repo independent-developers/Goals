@@ -12,7 +12,7 @@ function fetch(firebase, userId) {
 					console.log(':: formatting goals..')
 					let key = child.key
 					let data = child.val()
-					goals.push({ key, title: data.title, check: data.checked })
+					goals.push({ key, title: data.title, isChecked: data.isChecked })
 				})
 				resolve(goals)
 			})
