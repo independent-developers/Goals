@@ -241,25 +241,42 @@ function perform_element(key, title, goalIsChecked) {
         manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
     });
 
+    if (goalIsChecked === true) {
+        $('#'+key).prop('checked', true);
+        mark_checkbox_checked(key);
+    }
+    else {
+        $('#'+key).prop('checked', false);
+        mark_checkbox_unchecked(key);
+    }
+
     // Perform observer check action
     $('#'+key).change(function() {
         if (this.checked) {
-            $('#title_'+key).css({
-                "text-decoration": "line-through",
-                "text-decoration-color": "#000000",
-                "cursor": "default"
-            });
-
-            $('#title_'+key).prop('readonly', true);
+            mark_checkbox_checked(key);
         }
         else {
-            $('#title_'+key).css({
-                "text-decoration": "none",
-                "cursor": "text"
-            });
-
-            $('#title_'+key).prop('readonly', false);
+            mark_checkbox_unchecked(key);
         }
         manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
     });
+}
+
+function mark_checkbox_checked(key) {
+    $('#title_'+key).css({
+        "text-decoration": "line-through",
+        "text-decoration-color": "#000000",
+        "cursor": "default"
+    });
+
+    $('#title_'+key).prop('readonly', true);
+}
+
+function mark_checkbox_unchecked(key) {
+    $('#title_'+key).css({
+        "text-decoration": "none",
+        "cursor": "text"
+    });
+
+    $('#title_'+key).prop('readonly', false);
 }
