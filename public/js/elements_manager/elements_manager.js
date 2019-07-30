@@ -7,7 +7,18 @@ const BASE_URL = 'http://localhost:5000/api'
  * @returns {Array} Streamer's goals
  * @returns {Boolean} Return the success of the request
  */
-function deleteGoals(streamerId, ) {
+function deleteGoals(streamerId, goalId) {
+    if (goalId && goalId !== undefined) {
+        return fetch(`${BASE_URL}/users/${streamerId}/goals/${goalId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('An error occurred while fetching goals', error)
+            throw error
+        });
+    }
+    
 	return fetch(`${BASE_URL}/users/${streamerId}`, {
         method: 'DELETE'
     })
@@ -15,7 +26,7 @@ function deleteGoals(streamerId, ) {
     .catch(error => {
         console.error('An error occurred while fetching goals', error)
         throw error
-    })
+    });
 }
 
 /**
@@ -218,7 +229,7 @@ function handle_delete_edit_mode() {
 function perform_element(key, title, isChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
-    let element =  '<div class="cell edit_mode">' +
+    let element =  '<div class="cell '+key+' edit_mode">' +
                         '<input class="inp-cbx" id="'+key+'" type="checkbox" style="display: none;"/>' + 
                         '<label class="cbx" for="'+key+'">' +
                             '<span>' + 
@@ -228,8 +239,7 @@ function perform_element(key, title, isChecked) {
                             '</span>' +
                         '</label>' + 
                         '<span class="title"> <textarea class="title" id="title_'+key+'" rows="2" cols="30" data-limit-rows="true" placeholder="Enter your goal...">'+title+'</textarea> </span>' +
-                        '<input class="inp-trash" id="trash_'+key+'" type="button" style="display: none;"/>' +
-                        '<span class="trash" for="trash_'+key+'">' +
+                        '<span class="trash '+key+'" id="trash_'+key+'">' +
                             '<svg width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
                                 '<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
                                     '<g id="trash" fill="#D0021B" fill-rule="nonzero">' +
@@ -300,6 +310,14 @@ function perform_element(key, title, isChecked) {
             "cursor": "default"
         });
     }
+
+    // Configure delete event
+    $('#trash_'+key).click(function(){
+        const full_id = $(this).attr('id')
+        const id = full_id.substring(6, full_id.length);
+        manager.goals.delete(channelID, id);
+        $('div.cell.'+id).remove();
+    });
 
     // Create goal
     manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
