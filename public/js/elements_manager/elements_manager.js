@@ -29,7 +29,9 @@ function fetchGoals(streamerId) {
 		.then(response => response.json())
 		.then(function(goals){
             console.log(goals);
-            goals_local = goals;
+            goals_local = goals.sort(function(x, y){
+                return x.createdAt - y.createdAt;
+            })
         })
 		.catch(error => {
 			console.error('An error occurred while fetching goals', error)
