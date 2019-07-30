@@ -118,7 +118,7 @@ let goals_local = [];
             });
             $('.btn_delete').css({ "display":"none" });
         }
-
+        
         // Fetch all goals
         manager.goals.fetch(channelID).then(function(){
             goals_local.forEach(goal => {

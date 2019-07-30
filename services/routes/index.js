@@ -1,5 +1,6 @@
 const goals = require('./goals')
 const users = require('./users')
+const live = require('./live')
 const key = 'api'
 
 // Routes for goals
@@ -13,11 +14,6 @@ const routes = [
 		method: 'DELETE',
 		path: `/${key}/users/{userId?}`,
 		handler: users.remove,
-	},
-	{
-		method: 'GET',
-		path: '/',
-		handler: goals.fetch,
 	},
 	{
 		method: 'GET',

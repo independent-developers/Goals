@@ -92,19 +92,43 @@ if (
 	}
 }
 console.log('Creating server..')
-const server = new Hapi.Server(serverOptions)
+const hapiHttpServer = new Hapi.Server(serverOptions)
+
+// SOCKET IO
+var server = require("http").createServer(hapiHttpServer);
+const io = require('socket.io')(server);
+
+
+io.on('connection', function(socket){
+	console.log('a user connected', socket);
+	
+	firebase
+		.database()
+		.ref(`app/1234`)
+		.on("value", function(snapshot) {
+        var snap = snapshot.val();
+        console.log(snap)
+
+        // Print the data object's values
+        console.log("snapshot R: " + snap.title);
+        console.log("snapshot B: " + snap.isChecked);
+        io.emit('TAGGLE', snap);
+    });
+});
+
+
 
 ;(async () => {
 	console.log('--------')
 	apiRoutes.forEach(route => {
 		console.log(`${route.method} http://localhost:${PORT}${route.path}`)
-		server.route(route)
+		hapiHttpServer.route(route)
 	})
 	console.log('--------')
 
 	// Start the sercolorCycleHandlerver.
-	await server.start()
-	console.log(STRINGS.serverStarted, server.info.uri)
+	await hapiHttpServer.start()
+	console.log(STRINGS.serverStarted, hapiHttpServer.info.uri)
 
 	// Periodically clear cool-down tracking to prevent unbounded growth due to
 	// per-session logged-out user tokens.
@@ -112,6 +136,8 @@ const server = new Hapi.Server(serverOptions)
 		userCooldowns = {}
 	}, userCooldownClearIntervalMs)
 })()
+
+
 
 function usingValue(name) {
 	return `Using environment variable for ${name}`
