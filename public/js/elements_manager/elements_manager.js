@@ -147,6 +147,18 @@ function add_element() {
     perform_element(generateUUID(),"",false);
 }
 
+// Function allow to delete all goals
+function delete_all_elements() {
+    if (isBroadcaster === false) {
+        return;
+    }
+
+    // Delete all goals
+    manager.goals.delete(channelID);
+    $(".list").empty();
+    handle_delete_edit_mode();
+}
+
 // Function allow to delete one goal
 function handle_delete_edit_mode() {
     if (delete_mode === false) {
@@ -170,6 +182,8 @@ function handle_delete_edit_mode() {
         $('.btn_add').css({
             "background-color":"#D0021B"        
         })
+
+        $(".btn_add").attr("onclick","delete_all_elements()");
     }
     else {
         // Handle state of delete mode
@@ -192,6 +206,8 @@ function handle_delete_edit_mode() {
         $('.btn_add').css({
             "background-color":"#000000"
         })
+
+        $(".btn_add").attr("onclick","add_element()");
     }
 }
 
