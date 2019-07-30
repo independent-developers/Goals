@@ -12,16 +12,12 @@ async function goal(firebase, payload, userId, goalId) {
 		for (let index = 0; index < existingGoals.length; index++) {
 			const goal = existingGoals[index];
 			if(goal.key === goalId){
-				// TODO: if goalId found update
-				console.log(':: Goal already exists, updating..', goal.key)
+				console.log(':: Goal already exists, updating..', goalId)
 				const updatedGoal = update.goal(firebase, userId, goalId, payload);
-				console.log(':: Goal updated !', updatedGoal)
+				console.log(':: Goal updated !', goalId)
 				return updatedGoal;
 			}
-			// TODO: if goalId not found create
-			console.log('not found')
 		}
-		return
 	}
 	console.log(':: No goals found, creating the first goal..', existingGoals)
 	payload.createdAt = (timestamp / 1000);
