@@ -200,7 +200,7 @@ function handle_delete_edit_mode() {
 //  Private methods
 // =================
 
-function perform_element(key, title, goalIsChecked) {
+function perform_element(key, title, isChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
     let element =  '<div class="cell edit_mode">' +
@@ -245,7 +245,7 @@ function perform_element(key, title, goalIsChecked) {
 
     $('#title_'+key).on('blur', function (event) {
         var textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
+        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
     });
 
     // Perform observer check action
@@ -262,7 +262,7 @@ function perform_element(key, title, goalIsChecked) {
     }
 
     // Configure state of list according firebase
-    if (goalIsChecked === true) {
+    if (isChecked === true) {
         $('#'+key).prop('checked', true);
         mark_checkbox_checked(key);
     }
@@ -285,6 +285,9 @@ function perform_element(key, title, goalIsChecked) {
             "cursor": "default"
         });
     }
+
+    // Create goal
+    manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
 }
 
 function mark_checkbox_checked(key) {
