@@ -147,6 +147,18 @@ function add_element() {
     perform_element(generateUUID(),"",false);
 }
 
+// Function allow to delete all goals
+function delete_all_elements() {
+    if (isBroadcaster === false) {
+        return;
+    }
+
+    // Delete all goals
+    manager.goals.delete(channelID);
+    $(".list").empty();
+    handle_delete_edit_mode();
+}
+
 // Function allow to delete one goal
 function handle_delete_edit_mode() {
     if (delete_mode === false) {
@@ -170,6 +182,8 @@ function handle_delete_edit_mode() {
         $('.btn_add').css({
             "background-color":"#D0021B"        
         })
+
+        $(".btn_add").attr("onclick","delete_all_elements()");
     }
     else {
         // Handle state of delete mode
@@ -192,6 +206,8 @@ function handle_delete_edit_mode() {
         $('.btn_add').css({
             "background-color":"#000000"
         })
+
+        $(".btn_add").attr("onclick","add_element()");
     }
 }
 
@@ -200,7 +216,7 @@ function handle_delete_edit_mode() {
 //  Private methods
 // =================
 
-function perform_element(key, title, goalIsChecked) {
+function perform_element(key, title, isChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
     let element =  '<div class="cell edit_mode">' +
@@ -245,7 +261,7 @@ function perform_element(key, title, goalIsChecked) {
 
     $('#title_'+key).on('blur', function (event) {
         var textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
+        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
     });
 
     // Perform observer check action
@@ -262,7 +278,7 @@ function perform_element(key, title, goalIsChecked) {
     }
 
     // Configure state of list according firebase
-    if (goalIsChecked === true) {
+    if (isChecked === true) {
         $('#'+key).prop('checked', true);
         mark_checkbox_checked(key);
     }
@@ -285,6 +301,9 @@ function perform_element(key, title, goalIsChecked) {
             "cursor": "default"
         });
     }
+
+    // Create goal
+    manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
 }
 
 function mark_checkbox_checked(key) {
