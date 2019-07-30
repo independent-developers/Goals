@@ -29,6 +29,7 @@ h2.title {
 }
 
 button.btn_delete {
+    display: none;
     margin-top: 27px;
     margin-right: 10px;
     float: right;

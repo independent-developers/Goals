@@ -113,32 +113,41 @@ let goals_local = [];
 //  Lifecycle
 // ===========
 (function($){
+    // Perform twitch authorized
     twitch.onAuthorized(function(auth) {
+        // Parse auth
         let parts = auth.token.split(".");
         let payload = JSON.parse(window.atob(parts[1]));
         isBroadcaster = ( payload.role == 'broadcaster' );
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
         twitch.rig.log("channelID: ", channelID);
-
+        
         // Configure view for viewer
         if (isBroadcaster === false) {
             $('.btn_add').html('');
             $('.btn_add').css({
                 "cursor": "default"
             });
-            $('.btn_delete').css({ "display":"none" });
         }
 
         // Fetch all goals
         manager.goals.fetch(channelID).then(function(){
+            // Refresh list
             goals_local.forEach(goal => {
                 perform_element(goal.key, goal.title, goal.isChecked);
-
-                if (isBroadcaster === false) {
-                    $('.btn_add').html(goals_local.length + ' goals');
-                }
             });
+
+            // Perform bottom for viewer
+            if (isBroadcaster === false && goals_local.length !== 0) {
+                const label = ( goals_local.length === 1 ? ' goal' : ' goals' );
+                $('.btn_add').html(goals_local.length + label);
+            }
+
+            // Perform delete button
+            if (isBroadcaster === true && goals_local.length !== 0) {
+                $(".btn_delete").css({ "display":"inline-block" });
+            }
         });
     });
 })(window.jQuery || {});
@@ -154,6 +163,10 @@ function add_element() {
         return;
     }
 
+    // Perform delete button
+    $(".btn_delete").css({ "display":"inline-block" });
+
+    // Add goal
     perform_element(generateUUID(),"",false);
 }
 
@@ -162,6 +175,9 @@ function delete_all_elements() {
     if (isBroadcaster === false) {
         return;
     }
+
+    // Perform delete button
+    $(".btn_delete").css({ "display":"none" });
 
     // Delete all goals
     manager.goals.delete(channelID);
@@ -313,10 +329,29 @@ function perform_element(key, title, isChecked) {
 
     // Configure delete event
     $('#trash_'+key).click(function(){
+        // Retrieve full id
         const full_id = $(this).attr('id')
+
+        // Perform id
         const id = full_id.substring(6, full_id.length);
+
+        // Delete goal
         manager.goals.delete(channelID, id);
+
+        // Remove cell
         $('div.cell.'+id).remove();
+
+        // Fetch all goals
+        manager.goals.fetch(channelID).then(function(){
+            // Perform delete button
+            if (isBroadcaster === true && goals_local.length !== 0) {
+                $(".btn_delete").css({ "display":"inline-block" });
+            }
+            else if ((isBroadcaster === true && goals_local.length === 0)){
+                $(".btn_delete").css({ "display":"none" });
+                handle_delete_edit_mode();
+            }
+        });
     });
 
     // Create goal
