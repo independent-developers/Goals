@@ -19,7 +19,7 @@ async function goal(firebase, payload, userId, goalId) {
 			}
 		}
 	}
-	console.log(':: No goals found, creating the first goal..', existingGoals)
+	console.log(':: No goals found, creating the first goal..')
 	payload.createdAt = (timestamp / 1000);
 	return firebase
 		.database()

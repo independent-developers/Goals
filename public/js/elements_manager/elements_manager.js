@@ -28,7 +28,7 @@ function fetchGoals(streamerId) {
 	return fetch(`${BASE_URL}/users/${streamerId}/goals`)
 		.then(response => response.json())
 		.then(function(goals){
-            console.log(goals);
+            goals_local = goals;
         })
 		.catch(error => {
 			console.error('An error occurred while fetching goals', error)
