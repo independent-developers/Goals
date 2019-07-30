@@ -17,14 +17,13 @@ function fetch(firebase, userId) {
 						createdAt: data.createdAt
 					})
 				})
+				goals.sort((a, b) => a.createdAt - b.createdAt);
 				resolve(goals)
 			})
 			.catch(error => {
 				console.log('Whoops, an error occurred trying to find goals !')
 				reject(error)
 			})
-			goals.sort((a, b) => b.createdAt - a.createdAt);
-		return goals
 	})
 }
 
