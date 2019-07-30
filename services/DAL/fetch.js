@@ -23,7 +23,7 @@ function fetch(firebase, userId) {
 				console.log('Whoops, an error occurred trying to find goals !')
 				reject(error)
 			})
-			goals.sort((a, b) => a.createdAt - b.createdAt);
+			goals.sort((a, b) => b.createdAt - a.createdAt);
 		return goals
 	})
 }
