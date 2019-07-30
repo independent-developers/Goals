@@ -7,9 +7,7 @@ function fetch(firebase, userId) {
 		query
 			.once('value')
 			.then(snap => {
-				console.log(':: Found goals !')
 				snap.forEach(child => {
-					console.log(':: formatting goals..')
 					let key = child.key
 					let data = child.val()
 					goals.push({

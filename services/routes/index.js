@@ -5,6 +5,16 @@ const key = 'api'
 // Routes for goals
 const routes = [
 	{
+		method: 'POST',
+		path: `/${key}/users/{userId?}`,
+		handler: users.create,
+	},
+	{
+		method: 'DELETE',
+		path: `/${key}/users/{userId?}`,
+		handler: users.remove,
+	},
+	{
 		method: 'GET',
 		path: '/',
 		handler: goals.fetch,
@@ -15,14 +25,9 @@ const routes = [
 		handler: goals.fetch,
 	},
 	{
-		method: 'POST',
-		path: `/${key}/users/{userId?}`,
-		handler: users.create,
-	},
-	{
-		method: 'DELETE',
-		path: `/${key}/users/{userId?}`,
-		handler: users.remove,
+		method: 'PUT',
+		path: `/${key}/users/{userId}/goals/{goalId}`,
+		handler: goals.update,
 	},
 	{
 		method: 'POST',

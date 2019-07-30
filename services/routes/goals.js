@@ -54,8 +54,21 @@ function remove(request, h) {
 	return h.response().code(201)
 }
 
+async function update(request, h){
+	const { userId, goalId } = request.params;
+	const { payload } = request;
+	const updatedGoal = await DAL.update.goal(
+		DAL.firebase,
+		userId,
+		goalId,
+		payload
+	)
+	return h.response(updatedGoal).code(200)
+}
+
 module.exports = {
 	create,
 	remove,
 	fetch,
+	update
 }
