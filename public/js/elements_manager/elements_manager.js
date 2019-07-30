@@ -110,10 +110,13 @@ let goals_local = [];
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
         twitch.rig.log("channelID: ", channelID);
-    
+
         // Configure view for viewer
         if (isBroadcaster === false) {
-            $('.btn_add').css({ "display":"none" });
+            $('.btn_add').html('');
+            $('.btn_add').css({
+                "cursor": "default"
+            });
             $('.btn_delete').css({ "display":"none" });
         }
 
@@ -121,6 +124,10 @@ let goals_local = [];
         manager.goals.fetch(channelID).then(function(){
             goals_local.forEach(goal => {
                 perform_element(goal.key, goal.title, goal.isChecked);
+
+                if (isBroadcaster === false) {
+                    $('.btn_add').html(goals_local.length + ' goals');
+                }
             });
         });
     });
@@ -133,6 +140,10 @@ let goals_local = [];
 
 // Function allow to add one goal
 function add_element() {
+    if (isBroadcaster === false) {
+        return;
+    }
+
     perform_element(generateUUID(),"",false);
 }
 
