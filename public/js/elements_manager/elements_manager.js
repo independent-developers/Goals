@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:5000/api'
  * @returns {Array} Streamer's goals
  * @returns {Boolean} Return the success of the request
  */
-function deleteGoals(streamerId) {
+function deleteGoals(streamerId, ) {
 	return fetch(`${BASE_URL}/users/${streamerId}`, {
         method: 'DELETE'
     })
@@ -93,10 +93,10 @@ const manager = {
 // }])
 
 // Model
-var delete_mode = false;
-var isBroadcaster = false;
-var channelID = "";
-var goals_local = [];
+let delete_mode = false;
+let isBroadcaster = false;
+let channelID = "";
+let goals_local = [];
 
 
 
@@ -104,8 +104,8 @@ var goals_local = [];
 // ===========
 (function($){
     twitch.onAuthorized(function(auth) {
-        var parts = auth.token.split(".");
-        var payload = JSON.parse(window.atob(parts[1]));
+        let parts = auth.token.split(".");
+        let payload = JSON.parse(window.atob(parts[1]));
         isBroadcaster = ( payload.role == 'broadcaster' );
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
@@ -192,7 +192,7 @@ function handle_delete_edit_mode() {
 function perform_element(key, title, goalIsChecked) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
-    var element =  '<div class="cell edit_mode">' +
+    let element =  '<div class="cell edit_mode">' +
                         '<input class="inp-cbx" id="'+key+'" type="checkbox" style="display: none;"/>' + 
                         '<label class="cbx" for="'+key+'">' +
                             '<span>' + 
@@ -226,7 +226,7 @@ function perform_element(key, title, goalIsChecked) {
     }
 
     $('#title_'+key+'[data-limit-rows=true]').on('keypress', function (event) {
-        var textarea = $(this);
+        let textarea = $(this);
         if (event.which === 13 && textarea.val()) {
             textarea.blur();
         }

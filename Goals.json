@@ -6,7 +6,7 @@
   "extensionViews": [
     {
       "id": "1",
-      "label": "PANEL",
+      "label": "Panel",
       "channelId": "132041668",
       "configurationAnchor": "panel",
       "displayChannelName": "carbow",
@@ -21,56 +21,6 @@
       "mode": "viewer",
       "isPopout": false,
       "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "2",
-      "label": "Configuration",
-      "channelId": "132041668",
-      "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
-      "type": "config",
-      "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": true,
-      "linkedUserId": "265737932",
-      "mode": "config",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "3",
-      "label": "Panel - viewer logged out",
-      "channelId": "132041668",
-      "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
-      "type": "panel",
-      "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Logged-Out Viewer",
       "x": 0,
       "y": 0,
       "orientation": "Portrait",
