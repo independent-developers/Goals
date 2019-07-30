@@ -133,7 +133,7 @@ let goals_local = [];
 
 // Function allow to add one goal
 function add_element() {
-    perform_element("","",false);
+    perform_element(generateUUID(),"",false);
 }
 
 // Function allow to delete one goal
@@ -221,10 +221,6 @@ function perform_element(key, title, goalIsChecked) {
     $('.list').append(element);
 
     // Configure textarea
-    if (isBroadcaster === false) {
-        $('#title_'+key).prop('readonly', true);
-    }
-
     $('#title_'+key+'[data-limit-rows=true]').on('keypress', function (event) {
         let textarea = $(this);
         if (event.which === 13 && textarea.val()) {
@@ -241,6 +237,20 @@ function perform_element(key, title, goalIsChecked) {
         manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":goalIsChecked}]);
     });
 
+    // Perform observer check action
+    if (isBroadcaster === true) {
+        $('#'+key).change(function() {
+            if (this.checked) {
+                mark_checkbox_checked(key);
+            }
+            else {
+                mark_checkbox_unchecked(key);
+            }
+            manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
+        });
+    }
+
+    // Configure state of list according firebase
     if (goalIsChecked === true) {
         $('#'+key).prop('checked', true);
         mark_checkbox_checked(key);
@@ -250,16 +260,20 @@ function perform_element(key, title, goalIsChecked) {
         mark_checkbox_unchecked(key);
     }
 
-    // Perform observer check action
-    $('#'+key).change(function() {
-        if (this.checked) {
-            mark_checkbox_checked(key);
-        }
-        else {
-            mark_checkbox_unchecked(key);
-        }
-        manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
-    });
+    // Configure list for viewer
+    if (isBroadcaster === false) {
+        $('#title_'+key).prop('readonly', true);
+
+        $('#title_'+key).css({
+            "cursor": "default"
+        });
+
+        $('#'+key).attr("disabled", true);
+
+        $('.cbx').css({
+            "cursor": "default"
+        });
+    }
 }
 
 function mark_checkbox_checked(key) {
@@ -279,4 +293,16 @@ function mark_checkbox_unchecked(key) {
     });
 
     $('#title_'+key).prop('readonly', false);
+}
+
+function generateUUID() {
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
 }
