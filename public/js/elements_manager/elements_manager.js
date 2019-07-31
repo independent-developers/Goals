@@ -40,6 +40,10 @@ function fetchGoals(streamerId) {
 		.then(response => response.json())
 		.then(function(goals){
             goals_local = goals;
+            if (isBroadcaster === true) {
+                twitch.rig.log(goals);
+                twitch.send("broadcast", "application/json", {"goals":goals})
+            }
         })
 		.catch(error => {
 			console.error('An error occurred while fetching goals', error)
@@ -69,7 +73,34 @@ function setGoals(streamerId, goals = []) {
 			},
 			body: JSON.stringify({
 				title: goal.title,
-				isChecked: goal.isChecked,
+                isChecked: goal.isChecked,
+			}),
+		})
+		.then(response => response.json())
+		.catch(error => {
+			console.error('An error occurred while setting some goals', error)
+			throw error
+		})
+	})
+}
+
+function updateGoals(streamerId, goals = []) {
+	goals.forEach(goal => {
+		let url = ''
+		if (goal && goal.key) {
+			url = `${BASE_URL}/users/${streamerId}/goals/${goal.key}`
+		} else {
+			url = `${BASE_URL}/users/${streamerId}/goals`
+		}
+		return fetch(url, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				title: goal.title,
+                isChecked: goal.isChecked,
 			}),
 		})
 		.then(response => response.json())
@@ -84,6 +115,7 @@ const manager = {
 	goals: {
 		fetch: fetchGoals,
         create: setGoals,
+        update: updateGoals,
         delete: deleteGoals
 	},
 }
@@ -95,6 +127,7 @@ let delete_mode = false;
 let isBroadcaster = false;
 let channelID = "";
 let goals_local = [];
+let listenFirstTimeOnly = true;
 
 
 
@@ -111,6 +144,7 @@ let goals_local = [];
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
         twitch.rig.log("channelID: ", channelID);
+        twitch.rig.log("userID: ", auth.userId);
         
         // Configure view for viewer
         if (isBroadcaster === false) {
@@ -124,7 +158,7 @@ let goals_local = [];
         manager.goals.fetch(channelID).then(function(){
             // Refresh list
             goals_local.forEach(goal => {
-                perform_element(goal.key, goal.title, goal.isChecked);
+                perform_element(goal.key, goal.title, goal.isChecked, false);
             });
 
             // Perform bottom for viewer
@@ -138,6 +172,42 @@ let goals_local = [];
                 $(".btn_delete").css({ "display":"inline-block" });
             }
         });
+
+        // Listen all change for viewers
+        if (isBroadcaster === false && listenFirstTimeOnly === true) {
+            listenFirstTimeOnly = false;
+            twitch.listen('broadcast', function(target, contentType, message) {
+                // Parse json message
+                const response = JSON.parse(message);
+
+                // Preliminary: Check if goals exist on message
+                if (response.goals && response.goals !== undefined) {
+                    // Reset all local goals
+                    goals_local = [];
+
+                    // Reset user interface
+                    $(".list").empty();
+
+                    // Configure local goals
+                    goals_local = response.goals;
+
+                    // Add all goals on user interface
+                    response.goals.forEach(goal => {
+                        perform_element(goal.key, goal.title, goal.isChecked, false);
+                    });
+                }
+
+
+                // Perform bottom for viewer
+                if (response.goals.length !== 0) {
+                    const label = ( response.goals.length === 1 ? ' goal' : ' goals' );
+                    $('.btn_add').html(response.goals.length + label);
+                }
+                else {
+                    $('.btn_add').html('');
+                }
+            });
+        }
     });
 })(window.jQuery || {});
 
@@ -156,7 +226,7 @@ function add_element() {
     $(".btn_delete").css({ "display":"inline-block" });
 
     // Add goal
-    perform_element(generateUUID(),"",false);
+    perform_element(generateUUID(),"",false, true);
 }
 
 // Function allow to delete all goals
@@ -169,7 +239,7 @@ function delete_all_elements() {
     $(".btn_delete").css({ "display":"none" });
 
     // Delete all goals
-    manager.goals.delete(channelID);
+    delete_all();
     $(".list").empty();
     handle_delete_edit_mode();
 }
@@ -231,7 +301,7 @@ function handle_delete_edit_mode() {
 //  Private methods
 // =================
 
-function perform_element(key, title, isChecked) {
+function perform_element(key, title, isChecked, isCreated) {
     twitch.rig.log("key: ", key);
     // Preliminary: create element
     let element =  '<div class="cell '+key+' edit_mode">' +
@@ -275,19 +345,19 @@ function perform_element(key, title, isChecked) {
 
     $('#title_'+key).on('blur', function (event) {
         var textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
+        update(key, textarea.val(), isChecked);
     });
 
     // Perform observer check action
     if (isBroadcaster === true) {
-        $('#'+key).change(function() {
+        $('#'+key).change(async function() {
             if (this.checked) {
                 mark_checkbox_checked(key);
             }
             else {
                 mark_checkbox_unchecked(key);
             }
-            manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
+            update(key, $('#title_'+key).val(), this.checked);
         });
     }
 
@@ -325,26 +395,30 @@ function perform_element(key, title, isChecked) {
         const id = full_id.substring(6, full_id.length);
 
         // Delete goal
-        manager.goals.delete(channelID, id);
+        delete_goal(id);
 
         // Remove cell
         $('div.cell.'+id).remove();
 
         // Fetch all goals
-        manager.goals.fetch(channelID).then(function(){
-            // Perform delete button
-            if (isBroadcaster === true && goals_local.length !== 0) {
-                $(".btn_delete").css({ "display":"inline-block" });
-            }
-            else if ((isBroadcaster === true && goals_local.length === 0)){
-                $(".btn_delete").css({ "display":"none" });
-                handle_delete_edit_mode();
-            }
-        });
+        if (isBroadcaster === true) {
+            manager.goals.fetch(channelID).then(function(){
+                // Perform delete button
+                if (goals_local.length !== 0) {
+                    $(".btn_delete").css({ "display":"inline-block" });
+                }
+                else if (goals_local.length === 0){
+                    $(".btn_delete").css({ "display":"none" });
+                    handle_delete_edit_mode();
+                }
+            });
+        }
     });
 
     // Create goal
-    manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    if (isBroadcaster === true && isCreated === true) {
+        manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    }
 }
 
 function mark_checkbox_checked(key) {
@@ -355,7 +429,9 @@ function mark_checkbox_checked(key) {
     });
 
     $('#title_'+key).prop('readonly', true);
-    twitch.send("broadcast", "application/json", {"display":true});
+    if (isBroadcaster === true) {
+        twitch.send("broadcast", "application/json", {"display":true});
+    }
 }
 
 function mark_checkbox_unchecked(key) {
@@ -365,7 +441,9 @@ function mark_checkbox_unchecked(key) {
     });
 
     $('#title_'+key).prop('readonly', false);
-    twitch.send("broadcast", "application/json", {"display":false});
+    if (isBroadcaster === true) {
+        twitch.send("broadcast", "application/json", {"display":false});
+    }
 }
 
 function generateUUID() {
@@ -378,4 +456,19 @@ function generateUUID() {
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
+}
+
+async function update(key, title, isChecked) {
+    await manager.goals.update(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    manager.goals.fetch(channelID);
+}
+
+async function delete_goal(key) {
+    await manager.goals.delete(channelID, key);
+    manager.goals.fetch(channelID);
+}
+
+async function delete_all() {
+    await manager.goals.delete(channelID);
+    manager.goals.fetch(channelID);
 }
