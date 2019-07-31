@@ -1,24 +1,6 @@
-const fetch = require('./fetch')
-const update = require('./update')
-
 function goal(firebase, payload, userId, goalId) {
+	console.log(':: Creating goal')
 	let timestamp = new Date();
-
-	const existingGoals = fetch(firebase, userId)
-
-	if(Array.isArray(existingGoals) && existingGoals.length > 0){
-		console.log(':: Found goals !')
-
-		const index = existingGoals.findIndex(goal => goal.key === goalId);
-		if (index !== undefined) {
-			console.log(':: Goal already exists, updating..', goalId)
-			const updatedGoal = update.goal(firebase, userId, goalId, payload);
-			console.log(':: Goal updated !', goalId)
-			return updatedGoal;
-		}
-	}
-	
-	console.log(':: No goals found, creating the first goal..')
 	payload.createdAt = (timestamp / 1000);
 	return firebase
 		.database()
