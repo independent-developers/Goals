@@ -20,7 +20,7 @@ const fs = require('fs')
 const ext = require('commander')
 const path = require('path')
 const Hapi = require('@hapi/hapi')
-const color = require('color')
+const Inert = require('@hapi/inert');
 
 // Libraries
 const apiRoutes = require('./routes/index')
@@ -35,50 +35,22 @@ const verboseLog = verboseLogging ? console.log.bind(console) : () => {}
 
 const PORT = process.env.PORT || 3000
 
+console.log(':: PATH TO PUBLIC', (path.join(__dirname, 'public')));
+
 const serverOptions = {
 	host: 'localhost',
 	port: PORT,
 	routes: {
 		cors: {
 			origin: ['*'],
-		},
+		}
 	},
 }
 
-// Service state variables
-const initialColor = color('#6441A4') // super important; bleedPurple, etc.
-const userCooldownMs = 1000 // maximum input rate per user to prevent bot abuse
+
 const userCooldownClearIntervalMs = 60000 // interval to reset our tracking object
-const channelCooldownMs = 1000 // maximum broadcast rate per channel
-const bearerPrefix = 'Bearer ' // HTTP authorization headers have this prefix
-const channelColors = {}
-const channelCooldowns = {} // rate limit compliance
 let userCooldowns = {} // spam prevention
 
-const STRINGS = {
-	secretEnv: usingValue('secret'),
-	clientIdEnv: usingValue('client-id'),
-	ownerIdEnv: usingValue('owner-id'),
-	serverStarted: 'Server running at %s',
-	secretMissing: missingValue('secret', 'EXT_SECRET'),
-	clientIdMissing: missingValue('client ID', 'EXT_CLIENT_ID'),
-	ownerIdMissing: missingValue('owner ID', 'EXT_OWNER_ID'),
-	messageSendError: 'Error sending message to channel %s: %s',
-	pubsubResponse: 'Message to c:%s returned %s',
-	cyclingColor: 'Cycling color for c:%s on behalf of u:%s',
-	colorBroadcast: 'Broadcasting color %s for c:%s',
-	sendColor: 'Sending color %s to c:%s',
-	cooldown: 'Please wait before clicking again',
-	invalidAuthHeader: 'Invalid authorization header',
-	invalidJwt: 'Invalid JWT',
-}
-
-ext
-	.version(require('../package.json').version)
-	.option('-s, --secret <secret>', 'Extension secret')
-	.option('-c, --client-id <client_id>', 'Extension client ID')
-	.option('-o, --owner-id <owner_id>', 'Extension owner ID')
-	.parse(process.argv)
 
 const serverPathRoot = path.resolve(__dirname, '..', 'conf', 'server')
 if (
@@ -91,34 +63,36 @@ if (
 		key: fs.readFileSync(serverPathRoot + '.key'),
 	}
 }
+
 console.log('Creating server..')
-const hapiHttpServer = new Hapi.Server(serverOptions)
+
 
 // SOCKET IO
-var server = require("http").createServer(hapiHttpServer);
-const io = require('socket.io')(server);
+// var server = require("http").createServer(hapiHttpServer);
+// const io = require('socket.io')(server);
 
-
-io.on('connection', function(socket){
-	console.log('a user connected', socket);
+// io.on('connection', function(socket){
+// 	console.log('a user connected', socket);
 	
-	firebase
-		.database()
-		.ref(`app/1234`)
-		.on("value", function(snapshot) {
-        var snap = snapshot.val();
-        console.log(snap)
+// 	firebase
+// 		.database()
+// 		.ref(`app/1234`)
+// 		.on("value", function(snapshot) {
+//         var snap = snapshot.val();
+//         console.log(snap)
 
-        // Print the data object's values
-        console.log("snapshot R: " + snap.title);
-        console.log("snapshot B: " + snap.isChecked);
-        io.emit('TAGGLE', snap);
-    });
-});
+//         // Print the data object's values
+//         console.log("snapshot R: " + snap.title);
+//         console.log("snapshot B: " + snap.isChecked);
+//         io.emit('TAGGLE', snap);
+//     });
+// });
 
 
 
 ;(async () => {
+	const hapiHttpServer = new Hapi.Server(serverOptions)
+	await hapiHttpServer.register(Inert);
 	console.log('--------')
 	apiRoutes.forEach(route => {
 		console.log(`${route.method} http://localhost:${PORT}${route.path}`)
@@ -128,7 +102,7 @@ io.on('connection', function(socket){
 
 	// Start the sercolorCycleHandlerver.
 	await hapiHttpServer.start()
-	console.log(STRINGS.serverStarted, hapiHttpServer.info.uri)
+	console.log(`Server has started on %s !`, hapiHttpServer.info.uri)
 
 	// Periodically clear cool-down tracking to prevent unbounded growth due to
 	// per-session logged-out user tokens.

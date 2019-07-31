@@ -6,6 +6,13 @@ const key = 'api'
 // Routes for goals
 const routes = [
 	{
+        method: 'GET',
+        path: '/panel.html',
+        handler: function (request, h) {
+            return h.file('public/panel.html');
+        }
+    },
+	{
 		method: 'POST',
 		path: `/${key}/users/{userId?}`,
 		handler: users.create,
