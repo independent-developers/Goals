@@ -314,14 +314,15 @@ function perform_element(key, title, isChecked) {
 
     // Perform observer check action
     if (isBroadcaster === true) {
-        $('#'+key).change(function() {
+        $('#'+key).change(async function() {
             if (this.checked) {
                 mark_checkbox_checked(key);
             }
             else {
                 mark_checkbox_unchecked(key);
             }
-            manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
+            await manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
+            manager.goals.fetch(channelID);
         });
     }
 
