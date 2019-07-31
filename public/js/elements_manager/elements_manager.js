@@ -196,6 +196,16 @@ let listenFirstTimeOnly = true;
                         perform_element(goal.key, goal.title, goal.isChecked, false);
                     });
                 }
+
+
+                // Perform bottom for viewer
+                if (response.goals.length !== 0) {
+                    const label = ( response.goals.length === 1 ? ' goal' : ' goals' );
+                    $('.btn_add').html(response.goals.length + label);
+                }
+                else {
+                    $('.btn_add').html('');
+                }
             });
         }
     });
