@@ -95,6 +95,7 @@ let delete_mode = false;
 let isBroadcaster = false;
 let channelID = "";
 let goals_local = [];
+let listenFirstTimeOnly = true;
 
 
 
@@ -111,12 +112,39 @@ let goals_local = [];
         channelID = payload.channel_id;
         twitch.rig.log("broadcaster: ", isBroadcaster);
         twitch.rig.log("channelID: ", channelID);
+        twitch.rig.log("userID: ", auth.userId);
         
         // Configure view for viewer
         if (isBroadcaster === false) {
             $('.btn_add').html('');
             $('.btn_add').css({
                 "cursor": "default"
+            });
+        }
+
+        // Listen all change for viewers
+        if (isBroadcaster === false && listenFirstTimeOnly === true) {
+            listenFirstTimeOnly = false;
+            twitch.listen('broadcast', function(target, contentType, message) {
+                // Parse json message
+                const response = JSON.parse(message);
+
+                // Preliminary: Check if goals exist on message
+                if (response.goals && response.goals !== undefined) {
+                    // Reset all local goals
+                    goals_local = [];
+
+                    // Reset user interface
+                    $(".list").empty();
+
+                    // Configure local goals
+                    goals_local = response.goals;
+
+                    // Add all goals on user interface
+                    response.goals.forEach(goal => {
+                        perform_element(goal.key, goal.title, goal.isChecked);
+                    });
+                }
             });
         }
 
@@ -355,7 +383,9 @@ function mark_checkbox_checked(key) {
     });
 
     $('#title_'+key).prop('readonly', true);
-    twitch.send("broadcast", "application/json", {"display":true});
+    if (isBroadcaster === true) {
+        twitch.send("broadcast", "application/json", {"display":true});
+    }
 }
 
 function mark_checkbox_unchecked(key) {
@@ -365,7 +395,9 @@ function mark_checkbox_unchecked(key) {
     });
 
     $('#title_'+key).prop('readonly', false);
-    twitch.send("broadcast", "application/json", {"display":false});
+    if (isBroadcaster === true) {
+        twitch.send("broadcast", "application/json", {"display":false});
+    }
 }
 
 function generateUUID() {
