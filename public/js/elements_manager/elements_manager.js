@@ -306,10 +306,9 @@ function perform_element(key, title, isChecked) {
         return ( textarea.val().length < 55 );
     });
 
-    $('#title_'+key).on('blur', async function (event) {
+    $('#title_'+key).on('blur', function (event) {
         var textarea = $(this);
-        await manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
-        manager.goals.fetch(channelID);
+        update(key, textarea.val(), isChecked);
     });
 
     // Perform observer check action
@@ -321,8 +320,7 @@ function perform_element(key, title, isChecked) {
             else {
                 mark_checkbox_unchecked(key);
             }
-            await manager.goals.create(channelID, [{"key":key, "title":$('#title_'+key).val(), "isChecked":this.checked}]);
-            manager.goals.fetch(channelID);
+            update(key, $('#title_'+key).val(), this.checked);
         });
     }
 
@@ -379,7 +377,9 @@ function perform_element(key, title, isChecked) {
     });
 
     // Create goal
-    manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    if (isBroadcaster === true) {
+        manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    }
 }
 
 function mark_checkbox_checked(key) {
@@ -417,4 +417,9 @@ function generateUUID() {
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
+}
+
+async function update(key, title, isChecked) {
+    await manager.goals.create(channelID, [{"key":key, "title":title, "isChecked":isChecked}]);
+    manager.goals.fetch(channelID);
 }
