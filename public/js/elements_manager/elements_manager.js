@@ -351,24 +351,25 @@ function perform_element(key, title, isChecked, isCreated) {
     // Perform observer check action
     if (isBroadcaster === true) {
         $('#'+key).change(async function() {
+            const title = $('#title_'+key).val()
             if (this.checked) {
-                mark_checkbox_checked(key);
+                mark_checkbox_checked(key, title, true);
             }
             else {
-                mark_checkbox_unchecked(key);
+                mark_checkbox_unchecked(key, title, true);
             }
-            update(key, $('#title_'+key).val(), this.checked);
+            update(key, title, this.checked);
         });
     }
 
     // Configure state of list according firebase
     if (isChecked === true) {
         $('#'+key).prop('checked', true);
-        mark_checkbox_checked(key);
+        mark_checkbox_checked(key, title, false);
     }
     else {
         $('#'+key).prop('checked', false);
-        mark_checkbox_unchecked(key);
+        mark_checkbox_unchecked(key, title, false);
     }
 
     // Configure list for viewer
@@ -421,7 +422,7 @@ function perform_element(key, title, isChecked, isCreated) {
     }
 }
 
-function mark_checkbox_checked(key) {
+function mark_checkbox_checked(key, title, notify) {
     $('#title_'+key).css({
         "text-decoration": "line-through",
         "text-decoration-color": "#000000",
@@ -429,20 +430,20 @@ function mark_checkbox_checked(key) {
     });
 
     $('#title_'+key).prop('readonly', true);
-    if (isBroadcaster === true) {
-        twitch.send("broadcast", "application/json", {"display":true});
+    if (isBroadcaster === true && notify === true) {
+        twitch.send("broadcast", "application/json", {"display":true, "title":title});
     }
 }
 
-function mark_checkbox_unchecked(key) {
+function mark_checkbox_unchecked(key, title, notify) {
     $('#title_'+key).css({
         "text-decoration": "none",
         "cursor": "text"
     });
 
     $('#title_'+key).prop('readonly', false);
-    if (isBroadcaster === true) {
-        twitch.send("broadcast", "application/json", {"display":false});
+    if (isBroadcaster === true && notify === true) {
+        twitch.send("broadcast", "application/json", {"display":false, "title":title});
     }
 }
 
