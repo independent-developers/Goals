@@ -88,19 +88,7 @@ const manager = {
 	},
 }
 
-// TODO: Utiliser le manager comme suit pour fetch
-// manager.goals.fetch('1234')
-// TODO: Utiliser le manager comme suit pour create
-// manager.goals.create('1234', [{
-//     "key": "0da0d92183921efe233c79d3ca6ab5bd276641ee",
-//     "title": "Blblblblbl",
-//     "isChecked": true
-// },
-// {
-//     "key": "34c55d8715ad3f95183e2aca5c2e4c4ac2837671",
-//     "title": "Blblblblbl",
-//     "isChecked": false
-// }])
+
 
 // Model
 let delete_mode = false;
@@ -112,6 +100,7 @@ let goals_local = [];
 
 //  Lifecycle
 // ===========
+
 (function($){
     // Perform twitch authorized
     twitch.onAuthorized(function(auth) {
@@ -366,6 +355,7 @@ function mark_checkbox_checked(key) {
     });
 
     $('#title_'+key).prop('readonly', true);
+    twitch.send("broadcast", "application/json", {"display":true});
 }
 
 function mark_checkbox_unchecked(key) {
@@ -375,6 +365,7 @@ function mark_checkbox_unchecked(key) {
     });
 
     $('#title_'+key).prop('readonly', false);
+    twitch.send("broadcast", "application/json", {"display":false});
 }
 
 function generateUUID() {

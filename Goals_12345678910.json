@@ -53,6 +53,31 @@
         "width": 1280,
         "height": 720
       }
+    },
+    {
+      "id": "3",
+      "label": "Overlay",
+      "channelId": "265737932",
+      "configurationAnchor": "panel",
+      "displayChannelName": "karoxys",
+      "type": "video_overlay",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Logged-In Viewer",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 854,
+        "height": 480
+      }
     }
   ],
   "manifest": {
@@ -70,7 +95,7 @@
     "iconUrls": {},
     "id": "bo9yv7ekxz8jw0pmugzqnxkpeozelu",
     "installationCount": -42,
-    "liveConfigUrl": "",
+    "liveConfigUrl": "https://localhost:8080/live_config.html",
     "name": "Goals_12345678910",
     "panelHeight": 300,
     "privacyPolicyUrl": "",
@@ -87,35 +112,25 @@
     "viewerSummary": "",
     "viewerUrl": "https://localhost:8080/panel.html",
     "viewerUrls": {
-      "mobile": "https://localhost:8080/mobile.html",
       "panel": "https://localhost:8080/panel.html",
-      "component": "https://localhost:8080/video_component.html"
+      "videoOverlay": "https://localhost:8080/video_overlay.html"
     },
     "views": {
-      "mobile": {
-        "viewerUrl": "https://localhost:8080/mobile.html"
-      },
       "panel": {
         "viewerUrl": "https://localhost:8080/panel.html",
         "height": 300,
         "canLinkExternalContent": false
       },
-      "component": {
-        "viewerUrl": "https://localhost:8080/video_component.html",
-        "aspectWidth": 4000,
-        "aspectHeight": 3000,
-        "aspectRatioX": 300,
-        "aspectRatioY": 200,
-        "autoscale": true,
-        "scalePixels": 1024,
-        "targetHeight": 4000,
-        "size": 300,
-        "zoom": true,
-        "zoomPixels": 1024,
+      "videoOverlay": {
+        "viewerUrl": "https://localhost:8080/video_overlay.html",
         "canLinkExternalContent": false
       },
       "config": {
         "viewerUrl": "https://localhost:8080/config.html",
+        "canLinkExternalContent": false
+      },
+      "liveConfig": {
+        "viewerUrl": "https://localhost:8080/live_config.html",
         "canLinkExternalContent": false
       }
     },
