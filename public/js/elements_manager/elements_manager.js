@@ -40,6 +40,11 @@ function fetchGoals(streamerId) {
 		.then(response => response.json())
 		.then(function(goals){
             goals_local = goals;
+
+            if (isBroadcaster === true) {
+                twitch.rig.log(goals);
+                twitch.send("broadcast", "application/json", {"goals":goals})
+            }
         })
 		.catch(error => {
 			console.error('An error occurred while fetching goals', error)
@@ -122,6 +127,25 @@ let listenFirstTimeOnly = true;
             });
         }
 
+        // Fetch all goals
+        manager.goals.fetch(channelID).then(function(){
+            // Refresh list
+            goals_local.forEach(goal => {
+                perform_element(goal.key, goal.title, goal.isChecked);
+            });
+
+            // Perform bottom for viewer
+            if (isBroadcaster === false && goals_local.length !== 0) {
+                const label = ( goals_local.length === 1 ? ' goal' : ' goals' );
+                $('.btn_add').html(goals_local.length + label);
+            }
+
+            // Perform delete button
+            if (isBroadcaster === true && goals_local.length !== 0) {
+                $(".btn_delete").css({ "display":"inline-block" });
+            }
+        });
+
         // Listen all change for viewers
         if (isBroadcaster === false && listenFirstTimeOnly === true) {
             listenFirstTimeOnly = false;
@@ -147,25 +171,6 @@ let listenFirstTimeOnly = true;
                 }
             });
         }
-
-        // Fetch all goals
-        manager.goals.fetch(channelID).then(function(){
-            // Refresh list
-            goals_local.forEach(goal => {
-                perform_element(goal.key, goal.title, goal.isChecked);
-            });
-
-            // Perform bottom for viewer
-            if (isBroadcaster === false && goals_local.length !== 0) {
-                const label = ( goals_local.length === 1 ? ' goal' : ' goals' );
-                $('.btn_add').html(goals_local.length + label);
-            }
-
-            // Perform delete button
-            if (isBroadcaster === true && goals_local.length !== 0) {
-                $(".btn_delete").css({ "display":"inline-block" });
-            }
-        });
     });
 })(window.jQuery || {});
 
@@ -301,9 +306,10 @@ function perform_element(key, title, isChecked) {
         return ( textarea.val().length < 55 );
     });
 
-    $('#title_'+key).on('blur', function (event) {
+    $('#title_'+key).on('blur', async function (event) {
         var textarea = $(this);
-        manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
+        await manager.goals.create(channelID, [{"key":key, "title":textarea.val(), "isChecked":isChecked}]);
+        manager.goals.fetch(channelID);
     });
 
     // Perform observer check action
