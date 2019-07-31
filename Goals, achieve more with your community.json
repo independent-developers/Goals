@@ -1,20 +1,17 @@
 {
   "allowHttpBackend": false,
   "backendCommand": "",
-  "backendFolderName": "",
-  "certificateExceptions": [],
+  "backendFolderName": "/Users/Ugo/dev/Goals/services",
   "extensionViews": [
     {
       "id": "1",
-      "label": "Panel",
-      "channelId": "132041668",
+      "label": "extension",
+      "channelId": "451756459",
       "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
+      "displayChannelName": "independantdevelopers",
       "type": "panel",
       "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
+        "isChatEnabled": false
       },
       "linked": false,
       "linkedUserId": "",
@@ -25,78 +22,74 @@
       "y": 0,
       "orientation": "Portrait",
       "frameSize": {
-        "width": 1280,
-        "height": 720
+        "width": 640,
+        "height": 480
       }
     },
     {
       "id": "2",
-      "label": "configuration",
-      "channelId": "132041668",
+      "label": "extension",
+      "channelId": "451756459",
       "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
-      "type": "config",
+      "displayChannelName": "independantdevelopers",
+      "type": "panel",
       "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
+        "isChatEnabled": false
       },
-      "linked": true,
-      "linkedUserId": "265737932",
-      "mode": "config",
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Logged-In Viewer",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 640,
+        "height": 480
+      }
+    },
+    {
+      "id": "3",
+      "label": "Celebrate",
+      "channelId": "451756459",
+      "configurationAnchor": "panel",
+      "displayChannelName": "independantdevelopers",
+      "type": "video_overlay",
+      "features": {
+        "isChatEnabled": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
       "isPopout": false,
       "role": "Broadcaster",
       "x": 0,
       "y": 0,
       "orientation": "Portrait",
       "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "3",
-      "label": "",
-      "channelId": "132041668",
-      "configurationAnchor": "panel",
-      "displayChannelName": "carbow",
-      "type": "panel",
-      "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Logged-Out Viewer",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
+        "width": 640,
+        "height": 480
       }
     }
   ],
   "manifest": {
     "anchor": "panel",
     "assetUrls": [],
-    "authorName": "Carbow",
+    "authorName": "Independant Developers",
     "bitsEnabled": false,
     "canInstall": true,
     "configUrl": "https://localhost:8080/config.html",
     "configurationLocation": "none",
-    "description": "",
+    "description": "This extension allows you to set goals and share with you community you success !\n\nGoals that you type are save according you channelId, so where ever you go, if you are logged to your account and the extension is installed on you channel, you will sync your goals. You community can see the goals to reach, they can now help you to reach this goals because they know instantly what you are doing in your live.\nWhen a goal is completed, just celebrate with the viewers !\n\nThis extension is built by two passionate developers trying to bring new ways to interact more and share with your community.",
     "eulaTosUrl": "",
     "hasChatSupport": false,
     "iconUrl": "",
     "iconUrls": {},
-    "id": "vr8a9r3utytd8l2dgfjf44hgzcruzv",
+    "id": "69i80as25p4n28m19eccfz56fw1bli",
     "installationCount": -42,
     "liveConfigUrl": "",
-    "name": "Goals",
+    "name": "Goals, achieve more with your community",
     "panelHeight": 300,
     "privacyPolicyUrl": "",
     "requestIdentityLink": false,
@@ -105,8 +98,8 @@
     "sku": "",
     "state": "Testing",
     "subscriptionsSupportLevel": "none",
-    "summary": "",
-    "supportEmail": "jaimelacarbonara@gmail.com",
+    "summary": "This extension allows you to set goals and share with you community you success !",
+    "supportEmail": "independantdevelopers@gmail.com",
     "vendorCode": "",
     "version": "0.0.1",
     "viewerSummary": "",
@@ -132,8 +125,8 @@
       },
       "component": {
         "viewerUrl": "https://localhost:8080/video_component.html",
-        "aspectWidth": 3000,
-        "aspectHeight": 4000,
+        "aspectWidth": 4000,
+        "aspectHeight": 3000,
         "aspectRatioX": 300,
         "aspectRatioY": 200,
         "autoscale": true,
@@ -154,6 +147,5 @@
   },
   "frontendCommand": "",
   "frontendFolderName": "/Users/Ugo/dev/Goals/public",
-  "name": "Goals",
-  "version": 1
+  "name": "Goals, achieve more with your community"
 }
