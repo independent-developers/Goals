@@ -11,7 +11,7 @@
         <!-- Import javascript file: adapt for twitch extension -->
         <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
         <script src="externals_framework/jquery-3.4.1.min.js" type="text/javascript"></script>
-        <script src="js/elements_manager/elements_manager.js" type="text/javascript"></script>
+        <script src="js/panel/panel.js" type="text/javascript"></script>
 
         <!-- Configure header -->
         <div class="section-header">
@@ -19,7 +19,7 @@
             <h2 class="title">Goals</h2>
 
             <!-- Configure delete button -->
-            <button class="btn_delete" onclick="handle_delete_edit_mode()">Delete</button>
+            <button class="btn_delete">Delete</button>
             
             <!-- Configure sperator -->
             <hr class="separator" size=1 />
@@ -29,6 +29,6 @@
         <div class="list"></div>
 
         <!-- Configure add button -->
-        <button class="btn_add" onclick="add_element()">+ ADD</button>
+        <button class="btn_add">+ ADD</button>
     </body>
 </html>

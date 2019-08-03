@@ -1,5 +1,7 @@
 const twitch = window.Twitch.ext
+// const BASE_URL = 'https://goals-p3flmab5c.now.sh/api'
 const BASE_URL = 'http://localhost:5000/api'
+
 
 /**
  * Getch the streamer's goals list
@@ -145,6 +147,20 @@ let listenFirstTimeOnly = true;
         twitch.rig.log("broadcaster: ", isBroadcaster);
         twitch.rig.log("channelID: ", channelID);
         twitch.rig.log("userID: ", auth.userId);
+
+        // Handle user events
+        $(".btn_add").on("click", function() { 
+            if (delete_mode === true) {
+                delete_all_elements();
+            }
+            else {
+                add_element(); 
+            }
+        });
+    
+        $(".btn_delete").on("click", function() { 
+            handle_delete_edit_mode(); 
+        });
         
         // Configure view for viewer
         if (isBroadcaster === false) {
@@ -263,12 +279,10 @@ function handle_delete_edit_mode() {
         })
 
         // Handle state of add button
-        $('.btn_add').html('Delete all')
+        $('.btn_add').html('DELETE ALL')
         $('.btn_add').css({
             "background-color":"#D0021B"        
         })
-
-        $(".btn_add").attr("onclick","delete_all_elements()");
     }
     else {
         // Handle state of delete mode
@@ -287,12 +301,10 @@ function handle_delete_edit_mode() {
         })
 
         // Handle state of add button
-        $('.btn_add').html('+ Add')
+        $('.btn_add').html('+ ADD')
         $('.btn_add').css({
             "background-color":"#000000"
         })
-
-        $(".btn_add").attr("onclick","add_element()");
     }
 }
 

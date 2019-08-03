@@ -78,6 +78,31 @@
         "width": 1280,
         "height": 720
       }
+    },
+    {
+      "id": "4",
+      "label": "Configuration",
+      "channelId": "265737932",
+      "configurationAnchor": "panel",
+      "displayChannelName": "karoxys",
+      "type": "config",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": true,
+      "linkedUserId": "265737932",
+      "mode": "config",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
     }
   ],
   "manifest": {
@@ -127,14 +152,16 @@
       },
       "config": {
         "viewerUrl": "https://localhost:8080/config.html",
-        "canLinkExternalContent": false
+        "canLinkExternalContent": true
       },
       "liveConfig": {
         "viewerUrl": "https://localhost:8080/live_config.html",
-        "canLinkExternalContent": false
+        "canLinkExternalContent": true
       }
     },
-    "whitelistedConfigUrls": [],
+    "whitelistedConfigUrls": [
+      "https://discord.gg/Yed6x2n"
+    ],
     "whitelistedPanelUrls": []
   },
   "frontendCommand": "",

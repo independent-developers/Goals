@@ -17,27 +17,32 @@ let arrayOfGifsAvailable = ["https://media.giphy.com/media/87NS05bya11mg/giphy.g
 
 (function($){
     twitch.onAuthorized((auth) => {
+        _initialize();
         if (listenFirstTimeOnly === true) {
             listenFirstTimeOnly = false;
             twitch.listen("broadcast", function(target, contentType, message){
                 const response = JSON.parse(message);
                 twitch.rig.log("response: ",response);
                 if (response.display === true) {
+                    $(".gift_done").finish().fadeOut();
                     $('p.title').html(response.title);
                     $('img.gif').attr("src", arrayOfGifsAvailable[Math.floor(Math.random() * 10)]);
                     $('.gift_done').css({ "display":"inline-block" });
-                    $(".gift_done").fadeOut(7000, function() {
-                        $('.gift_done').css({ "display":"none" });
-                        $('img.gif').attr("src", '');
-                        $('p.title').html('');
+                    $(".gift_done").fadeOut(6500, function() {
+                        _initialize();
                     });
-                }
-                else if (response.display === false) {
-                    $('.gift_done').css({ "display":"none" });
-                    $('img.gif').attr("src", '');
-                    $('p.title').html('');
                 }
             });
         }
     });
 })(window.jQuery || {});
+
+
+
+//  Private methods
+// =================
+function _initialize() {
+    $('.gift_done').css({ "display":"none" });
+    $('img.gif').attr("src", '');
+    $('p.title').html('');
+}

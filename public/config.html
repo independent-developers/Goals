@@ -22,9 +22,13 @@
             color: #fff;
             background-color: #7289da;
             text-decoration: none;
+            border-width: 0;
         }
         .discord-btn:hover {
             background-color: #a0aee0;
+        }
+        button.discord-btn:focus {
+            outline:0 !important;
         }
     </style>
 </head>
@@ -36,7 +40,7 @@
         <h2>Hi there, let's configure the extension !</h2>
         <p>For now, this extension allow you to create an account, set some goals you want to achieve with your community to display them. You can delete your goals list and create another one.</p>
         <p>Thank you for considering to help us build a new awesome experience with your community.</p>
-        <a type="button" href="https://discord.gg/Yed6x2n" class="discord-btn">Reach us on Discord</a>
+        <button class="discord-btn">Reach us on Discord</button>
     </div>
 </body>
 </html>

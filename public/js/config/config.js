@@ -1,12 +1,14 @@
-let token, userId;
-
 const twitch = window.Twitch.ext;
 
-twitch.onContext((context) => {
-  twitch.rig.log(context);
-});
 
-twitch.onAuthorized((auth) => {
-  token = auth.token;
-  userId = auth.userId;
-});
+
+//  Lifecycle
+// ===========
+
+(function($){
+  twitch.onAuthorized((auth) => {
+      $('.discord-btn').on('click', function() {
+        window.open("https://discord.gg/Yed6x2n");
+      });
+  });
+})(window.jQuery || {});
