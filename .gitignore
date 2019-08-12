@@ -66,4 +66,6 @@ typings/
 # IntelliJ IDE files
 .idea
 
+# Custom
 test.*
+**/*.zip
