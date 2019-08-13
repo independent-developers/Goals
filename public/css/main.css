@@ -1,255 +1,245 @@
-
-
-
 /* BODY */
 body {
-    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #5f5f5f;
-    overflow-x: hidden;
+	font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #5f5f5f;
+	overflow-x: hidden;
 }
-
-
 
 /* HEADER */
 .section-header {
-    position: fixed;
-    clear: right;
-    width: 100%;
-    left: 0;
-    top : 0;
-    background-color: #ffffff;
-    z-index: 2;
+	position: fixed;
+	clear: right;
+	width: 100%;
+	left: 0;
+	top: 0;
+	background-color: #ffffff;
+	z-index: 2;
 }
 
 h2.title {
-    text-align: right;
-    cursor: default;
-    display: inline-block;
-    width: 61.6%;
+	text-align: right;
+	cursor: default;
+	display: inline-block;
+	width: 61.6%;
 }
 
 button.btn_delete {
-    display: none;
-    margin-top: 27px;
-    margin-right: 10px;
-    float: right;
-    color: #D0021B;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: normal;
-    border-width: 0;
-    font-size: 1rem;
-    cursor: pointer;
+	display: none;
+	margin-top: 27px;
+	margin-right: 10px;
+	float: right;
+	color: #d0021b;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: normal;
+	border-width: 0;
+	font-size: 1rem;
+	cursor: pointer;
 }
 
 button.btn_delete:focus {
-    outline:0 !important;
+	outline: 0 !important;
 }
 
 div.title-section {
-    padding-left: 10%;
+	padding-left: 10%;
 }
 
 hr.separator {
-    color: #5f5f5f;
-    margin-bottom: 0;
+	color: #5f5f5f;
+	margin-bottom: 0;
 }
-
-
 
 /* LIST OF GOALS */
 div.list {
-    margin-top: 95px;
-    margin-bottom: 40px;
+	margin-top: 95px;
+	margin-bottom: 40px;
 }
-
-
 
 /* CELL OF GOAL */
 
 /* cell */
 div.cell {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: auto;
-    min-height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: auto;
+	min-height: 30px;
 }
 
 /* title */
 span.title {
-    padding-left: 10px;
-    vertical-align: middle;
-    width: 60px;
+	padding-left: 10px;
+	vertical-align: middle;
+	width: 60px;
 }
 
 span.title:focus {
-    outline:0 !important;
+	outline: 0 !important;
 }
 
 textarea.title {
-    vertical-align: middle;
-    height: 32px;
-    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border-width: 0;
-    resize: none;
-    font-size: 15px;
-    margin-top: 2px;
-    line-height: 16px;
-    border-width: 1px;
-    border-radius: 3px;
-    border-color: #FBFBFB;
-    color: #5f5f5f;
+	vertical-align: middle;
+	height: 32px;
+	font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	border-width: 0;
+	resize: none;
+	font-size: 15px;
+	margin-top: 2px;
+	line-height: 16px;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: #fbfbfb;
+	color: #5f5f5f;
 }
 
 textarea.title:focus {
-    outline:0 !important;
+	outline: 0 !important;
 }
 
 textarea::-webkit-input-placeholder {
-    color: lightgrey;
+	color: lightgrey;
 }
-  
-textarea:-moz-placeholder { /* Firefox 18- */
-    color: lightgrey;  
+
+textarea:-moz-placeholder {
+	/* Firefox 18- */
+	color: lightgrey;
 }
-  
-textarea::-moz-placeholder {  /* Firefox 19+ */
-    color: lightgrey;  
+
+textarea::-moz-placeholder {
+	/* Firefox 19+ */
+	color: lightgrey;
 }
-  
+
 textarea:-ms-input-placeholder {
-    color: lightgrey;  
+	color: lightgrey;
 }
-  
+
 textarea::placeholder {
-    color: lightgrey;  
+	color: lightgrey;
 }
 
 /* checkbox */
 .cbx {
-    margin: auto;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
+	margin: auto;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
 }
 
 .cbx span {
-    display: inline-block;
-    vertical-align: middle;
-    transform: translate3d(0, 0, 0);
+	display: inline-block;
+	vertical-align: middle;
+	transform: translate3d(0, 0, 0);
 }
 
 .cbx span:first-child {
-    position: relative;
-    height: 18px;
-    width: 18px;
-    -webkit-border-radius: 15px; 
-    -moz-border-radius: 15px; 
-    border-radius: 15px;
-    transform: scale(1);
-    vertical-align: middle;
-    border: 1px solid #5f5f5f;
-    transition: all 0.2s ease;
+	position: relative;
+	height: 18px;
+	width: 18px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	transform: scale(1);
+	vertical-align: middle;
+	border: 1px solid #5f5f5f;
+	transition: all 0.2s ease;
 }
 
 .cbx span:first-child svg {
-    position: absolute;
-    top: 4px;
-    left: 3px;
-    fill: none;
-    stroke: #FFFFFF;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 16px;
-    stroke-dashoffset: 16px;
-    transition: all 0.3s ease;
-    transition-delay: 0.1s;
-    transform: translate3d(0, 0, 0);
+	position: absolute;
+	top: 4px;
+	left: 3px;
+	fill: none;
+	stroke: #ffffff;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-dasharray: 16px;
+	stroke-dashoffset: 16px;
+	transition: all 0.3s ease;
+	transition-delay: 0.1s;
+	transform: translate3d(0, 0, 0);
 }
 
 .cbx span:first-child:before {
-    width: 100%;
-    height: 100%;
-    background: #5f5f5f;
-    display: block;
-    transform: scale(0);
-    opacity: 1;
-    border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	background: #5f5f5f;
+	display: block;
+	transform: scale(0);
+	opacity: 1;
+	border-radius: 50%;
 }
 
 .cbx:hover span:first-child {
-    border-color: #5f5f5f;
+	border-color: #5f5f5f;
 }
-  
+
 .inp-cbx:checked + .cbx span:first-child {
-    background: #000000;
-    border-color: #000000;
-    animation: wave 0.4s ease;
+	background: #000000;
+	border-color: #000000;
+	animation: wave 0.4s ease;
 }
 
 .inp-cbx:checked + .cbx span:first-child svg {
-    stroke-dashoffset: 0;
+	stroke-dashoffset: 0;
 }
 
 .inp-cbx:checked + .cbx span:first-child:before {
-    transform: scale(3.5);
-    opacity: 0;
-    transition: all 0.6s ease;
+	transform: scale(3.5);
+	opacity: 0;
+	transition: all 0.6s ease;
 }
-  
+
 @keyframes wave {
-    50% {
-      transform: scale(0.9);
-    }
+	50% {
+		transform: scale(0.9);
+	}
 }
 
 /* trash */
 .trash {
-    position: relative;
-    float: right;
-    margin: auto;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-    vertical-align: middle;
+	position: relative;
+	float: right;
+	margin: auto;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	vertical-align: middle;
 }
 
 .trash svg {
-    position: absolute;
-    top: 6px;
-    left: 10px;
+	position: absolute;
+	top: 6px;
+	left: 10px;
 }
-
 
 /* CELL IN EDIT/DELETE MODE */
 .edit_mode {
-    transform: translateX(0px);
-    transition: transform 0.5s ease-in-out;
+	transform: translateX(0px);
+	transition: transform 0.5s ease-in-out;
 }
 
 .delete_mode {
-    transform: translateX(-28px);
-    transition: transform 0.5s ease-in-out;
+	transform: translateX(-28px);
+	transition: transform 0.5s ease-in-out;
 }
-
-
 
 /* ADD GOOAL */
 button.btn_add {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%; 
-    color: #ffffff; 
-    background-color: #000000; 
-    border-width: 0; 
-    height: 30px;
-    cursor: pointer; 
-    font-size: 1rem;
-    font-family: 'Open Sans', sans-serif;
-    z-index: 2;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	color: #ffffff;
+	background-color: #000000;
+	border-width: 0;
+	height: 30px;
+	cursor: pointer;
+	font-size: 1rem;
+	font-family: 'Open Sans', sans-serif;
+	z-index: 2;
 }
 
 button.btn_add:focus {
-    outline:0 !important;
+	outline: 0 !important;
 }
