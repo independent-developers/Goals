@@ -1,0 +1,145 @@
+{
+  "allowHttpBackend": false,
+  "backendCommand": "",
+  "backendFolderName": "",
+  "certificateExceptions": [],
+  "extensionViews": [
+    {
+      "id": "1",
+      "label": "Panel",
+      "channelId": "451756459",
+      "configurationAnchor": "panel",
+      "displayChannelName": "independantdevelopers",
+      "type": "panel",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "2",
+      "label": "Viewer logged In",
+      "channelId": "451756459",
+      "configurationAnchor": "panel",
+      "displayChannelName": "independantdevelopers",
+      "type": "panel",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Logged-In Viewer",
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "3",
+      "label": "gif success",
+      "channelId": "451756459",
+      "configurationAnchor": "panel",
+      "displayChannelName": "independantdevelopers",
+      "type": "video_overlay",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Logged-In Viewer",
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
+    }
+  ],
+  "manifest": {
+    "anchor": "panel",
+    "assetUrls": [],
+    "authorName": "Independant Developers",
+    "bitsEnabled": false,
+    "canInstall": true,
+    "configUrl": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/config.html",
+    "configurationLocation": "none",
+    "description": "This extension allows you to set goals and share with your community your successes!\n\nCreate your goals seamlessly within Twitch without any difficulties. Add your first objective to achieve with your community.\nOnce you reach a goal, mark it as completed by checking it. Reach any objective step by step and let your community know where you are in you path of success.\nIs your goals list completed? Bravo! let's reset the list to reach new goals! Remove one item, or the full list: you decide.\nGoals that you type are saved according to your channel, so wherever you go, if you are logged to your account and the extension is installed, you will get back your goals. Your community can help you to reach theses goals because they know in real-time what you are doing.\n\nWhen a goal is completed, just celebrate with the viewers!\n\nThis extension is built by two passionate developers trying to bring new ways to interact more and share with your community.",
+    "eulaTosUrl": "",
+    "hasChatSupport": false,
+    "iconUrl": "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/logo04887e96-2ad9-4c89-8c6b-39fb046a501d",
+    "iconUrls": {
+      "100x100": "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/logo04887e96-2ad9-4c89-8c6b-39fb046a501d",
+      "24x24": "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/taskbarbff5ccec-9598-461d-ad38-95dcd4637982",
+      "300x200": "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/discoveryd39ed1a5-fb64-471d-9f14-d594360ae98c"
+    },
+    "id": "98s7sst7jz68hge42kqgodvimey3iv",
+    "installationCount": -42,
+    "liveConfigUrl": "",
+    "name": "Goals - Achieve more with your community",
+    "panelHeight": 300,
+    "privacyPolicyUrl": "",
+    "requestIdentityLink": false,
+    "requiredBroadcasterAbilities": [],
+    "screenshotUrls": [
+      "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/screenshot2bc18c72-c580-44c2-b7fd-5a6092dd2292",
+      "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/screenshotcb50d21b-4720-4dc9-a957-6934d70dde7f",
+      "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/screenshot33d7f2b6-91f6-4940-a7f5-756b2d9f5eb6",
+      "https://extensions-discovery-images.twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.1/screenshot9b08469e-0fb1-4960-8fd5-081c54511aaf"
+    ],
+    "sku": "",
+    "state": "Released",
+    "subscriptionsSupportLevel": "none",
+    "summary": "This extension allows you to set goals and share with your community your successes!",
+    "supportEmail": "independantdevelopers@gmail.com",
+    "vendorCode": "",
+    "version": "0.0.3",
+    "viewerSummary": "This extension will allow you to see what the streamer aim to do in his stream. Help your favourite streamer to succeed his goals!",
+    "viewerUrl": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/panel.html",
+    "viewerUrls": {
+      "panel": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/panel.html",
+      "videoOverlay": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/video_overlay.html"
+    },
+    "views": {
+      "panel": {
+        "viewerUrl": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/panel.html",
+        "height": 300,
+        "canLinkExternalContent": false
+      },
+      "videoOverlay": {
+        "viewerUrl": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/video_overlay.html",
+        "canLinkExternalContent": false
+      },
+      "config": {
+        "viewerUrl": "https://98s7sst7jz68hge42kqgodvimey3iv.ext-twitch.tv/98s7sst7jz68hge42kqgodvimey3iv/0.0.3/b579b4122e064b870217afc1b84cf425/config.html",
+        "canLinkExternalContent": true
+      }
+    },
+    "whitelistedConfigUrls": [
+      "https://discord.gg/Yed6x2n"
+    ],
+    "whitelistedPanelUrls": []
+  },
+  "frontendCommand": "",
+  "frontendFolderName": "",
+  "name": "Goals - Achieve more with your community",
+  "version": 1
+}
