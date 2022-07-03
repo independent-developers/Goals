@@ -27,11 +27,17 @@
 				text-decoration: none;
 				border-width: 0;
 			}
-			.discord-btn:hover {
-				background-color: #a0aee0;
+			button.discord-btn:hover {
+				cursor: pointer;
+				animation-name: example;
+				animation-duration: .3s
 			}
 			button.discord-btn:focus {
 				outline: 0 !important;
+			}
+			@keyframes example {
+				from {background-color: #7289da;}
+				to {background-color: yellow;}
 			}
 		</style>
 	</head>
@@ -43,11 +49,12 @@
 		></script>
 		<script src="js/config/config.js" type="text/javascript"></script>
 		<div class="config">
-			<h2>Hi there, let's configure the extension !</h2>
+			<h2>Congratulations!</h2>
+			<h3>You're good to go!</h3>
 			<p>
 				For now, this extension allow you to create an account, set some goals
-				you want to achieve with your community to display them. You can delete
-				your goals list and create another one.
+				you want to achieve with your community and display them.<br/>
+				You can create, update, delete, list your goals.
 			</p>
 			<p>
 				Thank you for considering to help us build a new awesome experience with
